@@ -6,9 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 //DB
-var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('localhost:27017/nodecart');
+var mongo = require('mongoskin');
+var db = mongo.db('mongodb://localhost:27017/nodecart', {native_parser:true});
 
 var routes = require('./routes/index');
 var users = require('./routes/users');

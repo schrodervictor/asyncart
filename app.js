@@ -1,3 +1,4 @@
+var config = require('./config')();
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
@@ -21,6 +22,7 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use('/', routes);
 app.use('/users', users);

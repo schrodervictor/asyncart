@@ -14,4 +14,10 @@ describe("Configuration setup", function() {
 		expect(config.mode).toBe('production');
 		next();
 	});
+	it("should have DB configurations", function(next) {
+		var config = require('../config')();
+		expect(config.mongo.host).toBe('localhost');
+		expect(config.mongo.port).toBe('27017');
+		next();
+	});
 });

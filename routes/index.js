@@ -3,21 +3,21 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Express' });
+  res.render('index.jade', { title: 'NodeCart' });
 });
 
 /* GET Hello World. */
 router.get('/helloworld', function(req, res) {
-  res.render('helloworld', { title: 'Hello World!' });
+  res.render('helloworld.jade', { title: 'Hello World!' });
 });
 
 /* GET New User Form. */
 router.get('/newuser', function(req, res) {
-  res.render('newuser', { title: 'Add New User' });
+  res.render('newuser.jade', { title: 'Add New User' });
 });
 
 /* POST Add User. */
-router.post('/adduser', function(req, res) {
+router.post('/adduser.jade', function(req, res) {
     var db = req.db;
 
     var userName = req.body.username;
@@ -30,7 +30,7 @@ router.post('/adduser', function(req, res) {
         "email": userEmail
     }, function(err, doc) {
         if (err) {
-            res.send('There was a problem adding information do DB');
+            res.send('There was a problem adding information in DB');
         } else {
             res.location('userlist');
             res.redirect('userlist');
@@ -45,7 +45,7 @@ router.get('/userlist', function(req, res) {
     console.log(collection);
     collection.find({},{}, function(err, docs) {
         console.log(docs);
-        res.render('userlist', {
+        res.render('userlist.jade', {
             "userlist": docs
         });
     });

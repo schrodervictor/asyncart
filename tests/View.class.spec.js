@@ -1,4 +1,5 @@
 var View = require('../engine/View.class');
+
 describe('View class', function() {
 	it('should create and render a view', function(next) {
 		var responseMockup = {
@@ -7,7 +8,7 @@ describe('View class', function() {
 				expect(template).toBe('template-file');
 				next();
 			}
-		}
+		};
 		var v = new View(responseMockup, 'template-file');
 		v.render({myProperty: 'value'});
 	});
@@ -18,9 +19,9 @@ describe('View class', function() {
 				expect(data.prop).toBe('yes');
 				next();
 			}
-			var otherViewInstance = new OtherView();
-			expect(otherViewInstance.render).toBeDefined();
-			otherViewInstance.render({prop: 'yes'});
 		});
+		var otherViewInstance = new OtherView();
+		expect(otherViewInstance.render).toBeDefined();
+		otherViewInstance.render({prop: 'yes'});
 	});
 });

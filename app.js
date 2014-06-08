@@ -12,7 +12,8 @@ var users = require('./routes/users');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+var template = 'default';
+app.set('views', path.join(__dirname, 'view/templates/' + template));
 app.set('view engine', 'hjs');
 
 app.use(favicon());
@@ -21,8 +22,30 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
+//TODO Try to make cache works without this line
+app.disable('etag');
+
+var MongoClient = require('mongodb').MongoClient;
+var DB = {};
+
+MongoClient.connect('mongodb://' + config.mongo.host + ':' + config.mongo.port + '/fastdelivery', function(err, db) {
+    if(err) {
+        console.log('Sorry, there is no MongoDB server running');
+        err.status = 500;
+        next(err);
+    } else {
+        DB = db;
+    };
+});
+
+app.use(function(req, res, next) {
+    console.log('DB attached');
+    req.db = DB;
+    next();
+});
 
 app.use('/', routes);
 app.use('/users', users);

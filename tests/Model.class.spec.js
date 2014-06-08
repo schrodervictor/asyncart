@@ -11,11 +11,13 @@ describe('Model class', function() {
 	it('should be extensible', function(next) {
 		var model = new Model(dbMockup);
 		var OtherTypeOfModel = model.extend({
+			newProperty: 'Value 1',
 			myCustomModelMethod: function() {}
 		});
 		var model2 = new OtherTypeOfModel(dbMockup);
 		expect(model2.db).toBeDefined();
 		expect(model2.myCustomModelMethod).toBeDefined();
+		expect(model.newProperty).not.toBeDefined();
 		next();
 	});
 });

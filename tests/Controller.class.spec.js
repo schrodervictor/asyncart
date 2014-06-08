@@ -2,13 +2,11 @@ var Controller = require('../engine/Controller.class');
 describe('Controller class', function() {
 	it('should creat a new Controller', function(next) {
 		var controller = new Controller();
-//		var child = Controller.extend({name: 'Basic Controller'});
 		expect(controller.extend).toBeDefined();
 		expect(controller.run).toBeDefined();
-//		expect(child.name).toBe('Basic Controller');
 		next();
 	});
-	it('should be extensible', function(next) {
+	it('should be extendable', function(next) {
 		var controller = new Controller();
 		var OtherController = controller.extend({
 			newProperty: 'Value1',
@@ -23,6 +21,10 @@ describe('Controller class', function() {
 		});
 		var otherController2 = new OtherController2();
 		
+		expect(controller.newProperty).not.toBeDefined();
+		expect(controller.newMethod).not.toBeDefined()
+		expect(controller.newSecondMethod).not.toBeDefined();
+
 		expect(otherController.run).toBeDefined();
 		expect(otherController.newProperty).toBe('Value1');
 		expect(otherController.newMethod).toBeDefined();
@@ -30,13 +32,9 @@ describe('Controller class', function() {
 
 		expect(otherController2.run).toBeDefined();
 		expect(otherController2.newProperty).toBe('Value2');
-		expect(otherController2.newSecondMethod).toBeDefined();
 		expect(otherController2.newMethod).not.toBeDefined();
-		
-		expect(controller.newProperty).not.toBeDefined();
-		expect(controller.newMethod).not.toBeDefined()
-		expect(controller.newSecondMethod).not.toBeDefined();
-		
+		expect(otherController2.newSecondMethod).toBeDefined();
+
 		next();
 	});
 	it('the childs should be extensible', function(next) {
@@ -78,11 +76,12 @@ describe('Controller class', function() {
 
 		expect(otherController4.run).toBeDefined();
 		expect(otherController4.run()).toBe('Run Controller 4');
-		expect(otherController3.oldProperty).toBe('Old value 1');
+		expect(otherController4.oldProperty).toBe('Old value 1');
 		expect(otherController4.newProperty).toBe('Value5');
 		expect(otherController4.newMethod).not.toBeDefined();
 		expect(otherController4.newSecondMethod).not.toBeDefined();
-		expect(otherController4.newThirdMethod).not.toBeDefined();
+		expect(otherController4.newThirdMethod).toBeDefined();
+		expect(otherController4.newThirdMethod()).toBe('Return 3');
 		expect(otherController4.newForthMethod).toBeDefined();
 		expect(otherController4.newForthMethod()).toBe('Return 4');
 		

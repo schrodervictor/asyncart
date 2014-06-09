@@ -1,5 +1,5 @@
 var Model = require('../engine/Model.class');
-var dbMockup = {};
+var dbMockup = {db: {}};
 
 describe('Model class', function() {
 	it('should create a new model', function(next) {

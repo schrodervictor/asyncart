@@ -14,7 +14,7 @@ describe('View class', function() {
 	});
 	it('should be extendable', function(next) {
 		var v = new View();
-		var OtherView = v. extend({
+		var OtherView = v.extend({
 			render: function(data) {
 				expect(data.prop).toBe('yes');
 				next();

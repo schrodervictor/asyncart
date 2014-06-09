@@ -1,4 +1,4 @@
-var Extendable = module.exports = function Extendable(values) {
+var Extendable = module.exports = function Extendable() {
 
 //	if (this.init && 'function' === typeof this.init) {
 //		this.init(values);
@@ -12,6 +12,8 @@ var Extendable = module.exports = function Extendable(values) {
 	// The implementation with Object.create and prototype
 	// passes in all tests...
 	
+	var values = arguments;
+
 	for(var key in values) {
 		this[key] = values[key];
 	}
@@ -21,16 +23,16 @@ var Extendable = module.exports = function Extendable(values) {
 
 module.exports.prototype = {
 	extend: function(properties) {
-		var Child = function(values) {
+		var Child = function() {
 
 			// This authomatically call init function, allowing to
 			// simulate an override of the original constructor
 			if (this.init && 'function' === typeof this.init) {
-				this.init(values);
+				this.init.apply(this, arguments);
 				return;
 			}
 
-			module.exports.call(this, values);
+			module.exports.apply(this, arguments);
 		};
 
 		var Parent = Child.prototype = Object.create(this);

@@ -1,6 +1,10 @@
-var Extendable = module.exports = function Extendable(properties) {
+var Extendable = module.exports = function Extendable(values) {
 
-
+//	if (this.init && 'function' === typeof this.init) {
+//		this.init(values);
+//		return;
+//	}
+	
 	// Always set properties in the constructor
 	// otherwise it will be shared among all instances
 	
@@ -8,16 +12,27 @@ var Extendable = module.exports = function Extendable(properties) {
 	// The implementation with Object.create and prototype
 	// passes in all tests...
 	
-	//for(var key in properties) {
-	//	this[key] = properties[key];
-	//}
+	for(var key in values) {
+		this[key] = values[key];
+	}
+
+
 };
 
 module.exports.prototype = {
 	extend: function(properties) {
-		var Child = function(properties) {
-			 module.exports.call(this, properties);
-		}
+		var Child = function(values) {
+
+			// This authomatically call init function, allowing to
+			// simulate an override of the original constructor
+			if (this.init && 'function' === typeof this.init) {
+				this.init(values);
+				return;
+			}
+
+			module.exports.call(this, values);
+		};
+
 		var Parent = Child.prototype = Object.create(this);
 		Child.prototype.constructor = Child;
 

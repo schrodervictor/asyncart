@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{{ title }}</title>
+		<link rel="stylesheet" href="/stylesheets/style.css" />
+	</head>
+	<body>
+		<div class="container">
+			<h1>Form to login</h1>
+			<fieldset>
+				<form method="POST" action="/admin/login">
+					Username: <input type="text" name="username" /><br />
+					Password: <input type="password" name="password" /><br />
+					<input type="submit" value="Submit" />
+				</form>
+			</fieldset>
+		</div>
+	</body>
+</html>

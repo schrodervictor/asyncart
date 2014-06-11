@@ -1,0 +1,32 @@
+How a NodeCart should work
+
+A) Basic concepts (or crazy ideas):
+	A.1) Replicate in some sort the OpenCart engine
+	A.2) Should be asyncronous in almost everything
+	A.3) The web Template shoud be able to build in small blocks
+	A.4) Should follow MVC+L
+	A.5) Should be easy to use to a "simple mortal"
+	A.6) Should be extensible by modules, such as OpenCart or Wordpress, to build a marketplace;
+	A.7) Shoulde be easily responsible
+	A.8) Should be highly configurable in the admin, not witj the command line
+	A.9) Should have an automathic way to keep the server online (nodemon?)
+	A.10) Should have a layer of abstractiion between the app and the database, to work with NoSQL or SQL databases;
+
+
+B) Basic flow of a first time visit:
+	B.1) The client requests '/';
+	B.2) The server begin creating a session, if it not exists (based on cookie);
+		B.2.1) If there is a previous session restore it;
+		B.2.2) Set the username and other important user data;
+		B.2.3) Restore the previous shopping cart, if not expired;
+	B.3) The server loads the controller for "home/??action = index??"
+	B.4) The View renders a basic first page, SEO friendly, with only the skleton for the page (setting the cookie);
+	B.5) The page has a smart way to request every part of the page. Need ideas. jQuery selector based? The function in client should be similar and the server should know what to responde in each request;
+	B.6) Navigation should not necessarily reload the entire page;
+	B.7) When responding, each link should bring data of the destination of it's request.
+
+
+Abstract (until now):
+	Z.1) When defining the view, certain things that cannot be cached should be delegated to an ajax request to later building for the browser. Example: A produt page. The description and all layout are, theorecally, static, and could be cached, but the actual stock or the comments, not. So we need someway to delegate this type of data in the view for a later AJAX request, delivering the rest of the page immediately;
+		Z.1.1) Put placeholders or loading-images for the cases of Z.1;
+

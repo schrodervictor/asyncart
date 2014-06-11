@@ -4,6 +4,8 @@ var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var cookieSession = require('cookie-session');
+var session = require('express-session');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
@@ -21,6 +23,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+app.use(session({ secret: 'some secret ebh549n', cookie: { maxAge: 365*24*60*60 }}))
+//app.use(cookieSession({
+//    keys: ['key1', 'key2']
+//}));
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -37,11 +43,13 @@ MongoClient.connect('mongodb://' + config.mongo.host + ':' + config.mongo.port +
         err.status = 500;
         next(err);
     } else {
+        // TODO Add an event emitter?
         DB = db;
     };
 });
 
 app.use(function(req, res, next) {
+    // TODO Add an event listener?
     console.log('DB attached');
     req.db = DB;
     next();

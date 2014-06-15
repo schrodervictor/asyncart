@@ -1,29 +1,44 @@
 var config = {
+	version: '0.0.1',
+	mongo: {
+		host: 'localhost',
+		port: '27017'
+	}
+}
+
+var environment = {
 	local: {
 		mode: 'local',
 		port: 3000,
-		mongo: {
-			host: 'localhost',
-			port: '27017'
-		}
 	},
 	staging: {
 		mode: 'staging',
 		port: 4000,
-		mongo: {
-			host: 'localhost',
-			port: '27017'
-		}
 	},
 	production: {
 		mode: 'production',
 		port: 5000,
-		mongo: {
-			host: 'localhost',
-			port: '27017'
-		}
 	}
 }
 module.exports = function(mode) {
-	return config[mode || process.argv[2] || 'local'] || config.local;
+	config = merge(config, environment[mode || process.argv[2] || 'local']);
+	return config;
 }
+
+// Merge function
+// Credits to Emre Erkan 
+// http://stackoverflow.com/a/8625261/1240001
+var merge = function() {
+    var obj = {},
+        i = 0,
+        il = arguments.length,
+        key;
+    for (; i < il; i++) {
+        for (key in arguments[i]) {
+            if (arguments[i].hasOwnProperty(key)) {
+                obj[key] = arguments[i][key];
+            }
+        }
+    }
+    return obj;
+};

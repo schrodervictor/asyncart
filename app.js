@@ -8,9 +8,6 @@ var cookieSession = require('cookie-session');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var admin = require('./routes/admin')
 
 var app = express();
 
@@ -24,7 +21,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-app.use(session({ secret: 'some secret ebh549n', cookie: { maxAge: 365*24*60*60 }}))
+app.use(session({
+    secret: 'some secret ebh549n',
+    cookie: { maxAge: 365*24*60*60 }
+}));
 //app.use(cookieSession({
 //    keys: ['key1', 'key2']
 //}));
@@ -56,10 +56,30 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/admin', admin);
 
+/*
+var routes = require('./routes/index');
+var users = require('./routes/users');
+var admin = require('./routes/admin');
+*/
+controllers = [
+    'home',
+    'users',
+    'admin'
+];
+
+for (var i = controllers.length - 1; i >= 0; i--) {
+    if(controllers[i] === 'home') {
+        app.use('/', require('./routes/index'));        
+    } else {
+        app.use('/' + controllers[i], require('./routes/' + controllers[i]));
+    }
+};
+/*
+app.use('/', require('./routes/index'));
+app.use('/users', require('./routes/users'));
+app.use('/admin', require('./routes/admin'));
+*/
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');

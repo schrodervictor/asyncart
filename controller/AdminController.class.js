@@ -1,5 +1,6 @@
 var Controller = require('../engine/Controller.class');
 var View = require('../engine/View.class');
+var AdminModel = require('../model/AdminModel.class');
 
 var AdminController = (new Controller()).extend({
 	name: 'Admin',
@@ -12,13 +13,27 @@ var AdminController = (new Controller()).extend({
 				title: 'Administration',
 				content: 'Welcome to the control panel'
 			});
-			
+		} else {
+			res.redirect('/admin/login');
+		}
+	},
+	login: function(req, res, next) {
+		if(this.authorize(req)) {
+			req.session.fastdelivery = true;
+			req.session.save();
+			res.redirect('/admin');
 		} else {
 			var view = new View(res, 'admin-login');
 			view.render({
 				title: 'Please login',
 			});
 		}
+	},
+	logout: function(req, res, next) {
+		req.session.destroy(function(err) {
+			if (err) next(err);
+			res.redirect('/');
+		});
 	},
 	authorize: function(req) {
 		var isAuthenticated =
@@ -33,11 +48,9 @@ var AdminController = (new Controller()).extend({
 
 		return isAuthenticated || isAutenticating;
 	},
-	logout: function(req, res, next) {
-		req.session.destroy(function(err) {
-			if (err) next(err);
-			res.redirect('/');
-		});
+	getModel: function(req) {
+		this.model = this.model || new AdminModel(req.db);
+		return this.model;
 	}
 });
 

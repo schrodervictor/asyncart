@@ -26,7 +26,18 @@ B) Basic flow of a first time visit:
 	B.7) When responding, each link should bring data of the destination of it's request.
 
 
+
+Routes:
+	R.1) / => controller Home, action Index
+	R.3) /p/:SEOurl
+	R.2) /:controler/:action
+	R.4) /:category/:subcategory/:...
+	R.5) /:category/:product
+
+
+
 Abstract (until now):
-	Z.1) When defining the view, certain things that cannot be cached should be delegated to an ajax request to later building for the browser. Example: A produt page. The description and all layout are, theorecally, static, and could be cached, but the actual stock or the comments, not. So we need someway to delegate this type of data in the view for a later AJAX request, delivering the rest of the page immediately;
+	Z.1) When defining the view, certain things that cannot be cached should be delegated to an AJAX request to later building for the browser. Example: A produt page. The description and all layout are, theorecally, static, and could be cached, but the actual stock or the comments, not. So we need someway to delegate this type of data in the view for a later AJAX request, delivering the rest of the page immediately;
 		Z.1.1) Put placeholders or loading-images for the cases of Z.1;
+		Z.1.2) The client-side jQuery plugin could parse the incomming request to find predefined placeholders and, in the case it find one (or more), dispatch the AJAX request;
 

@@ -6,6 +6,8 @@ describe('Model class', function() {
 		var model = new Model(dbMockup);
 		expect(model.db).toBeDefined();
 		expect(model.extend).toBeDefined();
+		expect(model.collection).toBeDefined();
+		expect(model.setDB).toBeDefined();
 		next();
 	});
 	it('should be extensible', function(next) {
@@ -16,6 +18,9 @@ describe('Model class', function() {
 		});
 		var model2 = new OtherTypeOfModel(dbMockup);
 		expect(model2.db).toBeDefined();
+		expect(model2.extend).toBeDefined();
+		expect(model2.collection).toBeDefined();
+		expect(model2.setDB).toBeDefined();
 		expect(model2.myCustomModelMethod).toBeDefined();
 		expect(model.newProperty).not.toBeDefined();
 		next();

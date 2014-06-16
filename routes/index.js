@@ -5,11 +5,8 @@ var ContentController = require('../controller/ContentController.class');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    req.db.collection('test').find({}, function(err, docs) {
-	  	console.log('db accessed');
-	});
-    res.render('index', { title: 'Express 222' });
-	//next();
+	var Home = require('../controller/common/HomeController.class');
+	(new Home())['index'](req, res, next);
 });
 
 router.get('/teste', function(req, res, next) {

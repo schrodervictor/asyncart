@@ -10,7 +10,7 @@ var ContentController = (new Controller()).extend({
 		var data = {
 			user:'Victor',
 			pass: 'pass',
-			unsername: 'schrodervictor'
+			username: 'schrodervictor'
 		}
 		self.model.insert(data, function(err, result) {
 			console.log(err);

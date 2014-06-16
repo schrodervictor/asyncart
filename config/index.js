@@ -3,6 +3,12 @@ var config = {
 	mongo: {
 		host: 'localhost',
 		port: '27017'
+	},
+	session: {
+		secret: 'some secret ebh549n'
+	},
+	cookie: {
+		maxAge: 365*24*60*60
 	}
 }
 

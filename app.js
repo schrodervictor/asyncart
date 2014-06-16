@@ -22,8 +22,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(session({
-    secret: 'some secret ebh549n',
-    cookie: { maxAge: 365*24*60*60 }
+    secret: config.session.secret,
+    cookie: { maxAge: config.cookie.maxAge }
 }));
 //app.use(cookieSession({
 //    keys: ['key1', 'key2']

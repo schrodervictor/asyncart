@@ -8,10 +8,15 @@ var HomeController = (new Controller()).extend({
 
 
 		var view = new View(res, 'home');
+		view.partials({
+			header: 'header',
+//			contentTop: 'contentTop',
+//			contentBottom: 'contentBottom',
+			footer: 'footer'
+		});
 		view.render({
 			title: 'Homepage of NodeCart',
 			content: 'Welcome to the main page',
-			partials: {header: 'header'}
 		});
 	},
 });

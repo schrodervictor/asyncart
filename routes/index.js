@@ -1,12 +1,34 @@
 var config = require('../config')();
 var express = require('express');
 var router = express.Router();
-var ContentController = require('../controller/ContentController.class');
+
+router.param('group', function(req, res, next, group) {
+	// TODO implement validation of this entry (for safety)
+    req.group = group;
+    console.log('Group: ' +req.group);
+    next();
+});
+
+router.param('controller', function(req, res, next, controller) {
+	// TODO implement validation of this entry (for safety)
+	// TODO Add suport for multiple word controller files
+    req.controller = controller.charAt(0).toUpperCase() + controller.substr(1).toLowerCase();
+    console.log('Controller: ' + req.controller);
+    next();
+});
+
+router.param('action', function(req, res, next, action) {
+	// TODO implement validation of this entry (for safety)
+	// TODO Add suport for multiple word methods
+   	req.action = action.toLowerCase();
+    console.log('Action: ' + req.action);
+    next();
+});
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-	var Home = require('../controller/common/HomeController.class');
-	(new Home())['index'](req, res, next);
+router.get('/:group/:controller/:action?', function(req, res, next) {
+	var Page = require('../controller/' + req.group + '/' + req.controller + 'Controller.class');
+	(new Page())[req.action || 'index'](req, res, next);
 });
 
 router.get('/teste', function(req, res, next) {

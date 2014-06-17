@@ -5,7 +5,7 @@ var router = express.Router();
 router.param('group', function(req, res, next, group) {
 	// TODO implement validation of this entry (for safety)
     req.group = group;
-    console.log('Group: ' +req.group);
+    console.log('Group: ' + req.group);
     next();
 });
 
@@ -23,6 +23,12 @@ router.param('action', function(req, res, next, action) {
    	req.action = action.toLowerCase();
     console.log('Action: ' + req.action);
     next();
+});
+
+/* GET foo */
+router.get('/foo', function(req, res, next) {
+	var Controller = require('../engine/Controller.class');
+	new Controller().forward(req, res, next, 'common/home');
 });
 
 /* GET home page. */

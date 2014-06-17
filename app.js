@@ -62,17 +62,17 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var admin = require('./routes/admin');
 */
-controllers = [
+groups = [
+    'admin',
     'home',
     'users',
-    'admin'
 ];
 
-for (var i = controllers.length - 1; i >= 0; i--) {
-    if(controllers[i] === 'home') {
+for (var i = 0, j = groups.length; i < j; i++) {
+    if(groups[i] === 'home') {
         app.use('/', require('./routes/index'));        
     } else {
-        app.use('/' + controllers[i], require('./routes/' + controllers[i]));
+        app.use('/' + groups[i], require('./routes/' + groups[i]));
     }
 };
 /*

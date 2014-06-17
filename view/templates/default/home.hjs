@@ -4,5 +4,4 @@
 			<h1>{{ content }}</h1>
 		</div>
 	</body>
-	{{> footer }}
-</html>
+{{> footer }}

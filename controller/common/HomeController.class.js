@@ -1,18 +1,29 @@
 var Controller = require('../../engine/Controller.class');
-var View = require('../../engine/View.class');
 
 var HomeController = (new Controller()).extend({
+	init: function() {
+		this.groupName = 'common';
+		this.controllerName = 'home';
+		this.route = 'common/home';
+		this.data = {};
+	},
 	
 	index: function(req, res, next) {
 		self = this;
 
+		this.data = {
+			title: 'Homepage of NodeCart',
+			content: 'Welcome to the main page',
+		};
 
-		var view = new View(res, 'home');
-
-		this.renderPartials(req, res, next, {
-			header: 'header',
-			footer: 'footer'
-		});
+		this.renderPartials(req, res, next, [
+			'columnLeft',
+			'columnRight',
+			'contentTop',
+			'contentBottom',
+			'header',
+			'footer'
+		]);
 		/*
 		view.partials({
 			header: 'header',
@@ -21,10 +32,9 @@ var HomeController = (new Controller()).extend({
 			footer: 'footer'
 		});
 */
-		view.render({
-			title: 'Homepage of NodeCart',
-			content: 'Welcome to the main page',
-		});
+		console.log('called render');
+
+		this.render(res);
 	},
 });
 

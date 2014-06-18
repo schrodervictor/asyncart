@@ -7,16 +7,51 @@ var Controller = (new Extendable()).extend({
 	action: function(params) {
 		
 	},
+	/**
+	 * Method renderPartials(req, res, next, partials)
+	 * This method is destinated to render partials views
+	 * completelly. They will really render BEFORE the final
+	 * rendering. That means these partials will be available
+	 * as local variables, in html format. They have to be
+	 * placed inside the view with triple mustache.
+	 * For example, this call in a controller method:
+	 *
+	 * this.renderPartials(req, res, next, {
+	 *     header: 'header',
+	 *     footer: 'footer'	
+	 * });
+	 *
+	 * will be populated as:
+	 *
+	 *     res.locals.header
+	 *     res.locals.footer
+	 *
+	 * And have to be rendered as:
+	 *
+	 *     {{{ header }}}
+	 *     {{{ footer }}}
+	 */
 	renderPartials: function(req, res, next, partials) {
 		var View = require('../engine/View.class');
-		for (var key in partials) {
-			var view = new View(res, partials[key]);
-			view.render(null, function(err, html) {
+		for (var i = 0, j = partials.length; i < j; i++) {
+			console.log(partials[i]);
+			res.render(partials[i], null, function(err, html) {
 				if(err) next(err);
-				else res.locals[key] = html;
+				else res.locals[partials[i]] = html;
 			});
 		};
 	},
+	/**
+	 * This method delegates the answer for a request
+	 * to other controller, without a redirect.
+	 * To redirect to homepage, for example, this
+	 * should be called as followed:
+	 *
+	 * this.forward(req, res, next, 'common/home');
+	 * or
+	 * this.forward(req, res, next, 'common/home/index');
+	 *
+	 */
 	forward: function(req, res, next, route) {
 		route = route.split('/');
 		group = route.shift();
@@ -25,6 +60,11 @@ var Controller = (new Extendable()).extend({
 		action = route.shift() || 'index';
 		var Page = require('../controller/' + group + '/' + controller + 'Controller.class');
 		(new Page())[req.action || 'index'](req, res, next);
+	},
+	render: function(res) {
+		var View = require('../engine/View.class');
+		var view = new View(res, this.controllerName);
+		view.render(this.data);
 	}
 
 });

@@ -61,20 +61,23 @@ app.use(function(req, res, next) {
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var admin = require('./routes/admin');
-*/
+
 groups = [
     'admin',
-    'home',
+    'common',
     'users',
 ];
 
 for (var i = 0, j = groups.length; i < j; i++) {
-    if(groups[i] === 'home') {
+    if(groups[i] === 'common') {
         app.use('/', require('./routes/index'));        
     } else {
         app.use('/' + groups[i], require('./routes/' + groups[i]));
     }
-};
+};*/
+app.use('/admin', require('./routes/admin'));
+app.use('/', require('./routes/index'));
+
 /*
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));

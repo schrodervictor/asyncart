@@ -8,10 +8,10 @@ var View = (new Extendable()).extend({
 	partials: function(childViews) {
 		this.childViews = childViews;
 	},
-	render: function(data) {
+	render: function(data, callback) {
 		if(this.res && this.template) {
 			if (!!this.childViews) data.partials = this.childViews;
-			this.res.render(this.template, data);
+			this.res.render(this.template, data, callback);
 		}
 	}
 });

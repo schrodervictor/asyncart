@@ -25,7 +25,7 @@ router.param('action', function(req, res, next, action) {
     next();
 });
 
-/* GET foo */
+/* GET foo => forward to common/home */
 router.get('/foo', function(req, res, next) {
 	var Controller = require('../engine/Controller.class');
 	new Controller().forward(req, res, next, 'common/home');

@@ -7,6 +7,16 @@ var Controller = (new Extendable()).extend({
 	action: function(params) {
 		
 	},
+	renderPartials: function(req, res, next, partials) {
+		var View = require('../engine/View.class');
+		for (var key in partials) {
+			var view = new View(res, partials[key]);
+			view.render(null, function(err, html) {
+				if(err) next(err);
+				else res.locals[key] = html;
+			});
+		};
+	},
 	forward: function(req, res, next, route) {
 		route = route.split('/');
 		group = route.shift();

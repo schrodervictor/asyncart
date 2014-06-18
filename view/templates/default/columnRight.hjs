@@ -1,0 +1,5 @@
+<div class="column-right">
+{{#modules}}
+	{{content}}
+{{/modules}}
+</div>

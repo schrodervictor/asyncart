@@ -1,0 +1,5 @@
+<div class="content-bottom">
+{{#modules}}
+	{{content}}
+{{/modules}}
+</div>

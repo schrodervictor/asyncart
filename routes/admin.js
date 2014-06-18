@@ -1,7 +1,7 @@
 var config = require('../config')();
 var express = require('express');
 var router = express.Router();
-var Admin = require('../controller/AdminController.class');
+var Admin = require('../controller/admin/AdminController.class');
 
 /* All Admin Login page */
 router.all('/login', function(req, res, next) {

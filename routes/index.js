@@ -4,7 +4,7 @@ var router = express.Router();
 
 router.param('group', function(req, res, next, group) {
 	// TODO implement validation of this entry (for safety)
-    req.group = group;
+    req.group = group.toLowerCase();
     console.log('Group: ' + req.group);
     next();
 });
@@ -34,7 +34,12 @@ router.get('/foo', function(req, res, next) {
 /* GET home page. */
 router.get('/:group/:controller/:action?', function(req, res, next) {
 	var Page = require('../controller/' + req.group + '/' + req.controller + 'Controller.class');
-	(new Page())[req.action || 'index'](req, res, next);
+	var page = new Page();
+	if(page.isExposedAction(req.action || 'index')) {
+		page[req.action || 'index'](req, res, next);
+	} else {
+		next();
+	}
 });
 
 router.get('/teste', function(req, res, next) {

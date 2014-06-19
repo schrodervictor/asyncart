@@ -1,6 +1,10 @@
 var Extendable = require('./Extendable.class');
 
 var Controller = (new Extendable()).extend({
+	exposedActions: {
+		index: true,
+		action: true,
+	},
 	index: function() {
 
 	},

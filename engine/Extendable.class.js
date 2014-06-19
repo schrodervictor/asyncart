@@ -35,10 +35,14 @@ module.exports.prototype = {
 			module.exports.apply(this, arguments);
 		};
 
-		var Parent = Child.prototype = Object.create(this);
+		var parent = Child.prototype = Object.create(this);
 		Child.prototype.constructor = Child;
 
 		for(var key in properties) {
+			if('constructor' === key) continue;
+			if('publicMethods' === key) {
+				Child.prototype['publicMethods'] = merge(properties['publicMethods'], parent['publicMethods'])
+			}
 			// TODO prototype only functions. For some reason
 			// the "if" statement below blocks the assigment for properties
 			// The good news is that this code seems to work
@@ -52,7 +56,31 @@ module.exports.prototype = {
 		}
 		return Child;
 	},
+	exposedActions: {
+		extend: false,
+		isExtendable: false,
+		isPrivate: false
+	},
+	isExposedAction: function(action) {
+		return this.exposedActions[action] || false;
+	},
 	isExtendable: function() {
 		return true;
 	}
 }
+
+
+function merge() {
+    var obj = {},
+        i = 0,
+        il = arguments.length,
+        key;
+    for (; i < il; i++) {
+        for (key in arguments[i]) {
+            if (arguments[i].hasOwnProperty(key)) {
+                obj[key] = arguments[i][key];
+            }
+        }
+    }
+    return obj;
+};

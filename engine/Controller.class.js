@@ -101,10 +101,9 @@ var Controller = (new Extendable()).extend({
 			next();
 		}
 	},
-	render: function(res) {
-		var View = require('../engine/View.class');
-		var view = new View(res, this.controllerName);
-		view.render(this.data);
+	render: function(callback) {
+		if (!!this.childViews) this.data.partials = this.childViews;
+		this.res.render(this.template, this.data, callback);
 	}
 });
 

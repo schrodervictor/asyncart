@@ -62,6 +62,13 @@ var Controller = (new Extendable()).extend({
 			});
 		};
 	},
+	renderAsPartial: function(callback) {
+		// each controller can override this method
+		// to control the behavior when rendered as a partial
+
+		// Method renderAsPartial needs to finish calling this line
+		this.render(callback);
+	},
 	/**
 	 * This method delegates the answer for a request
 	 * to other controller, without a redirect.

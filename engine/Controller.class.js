@@ -7,14 +7,13 @@ var Controller = (new Extendable()).extend({
 		this.next = next || arguments[2];
 	},
 	exposedActions: {
-		index: true,
-		action: true,
+		index: true
 	},
 	index: function() {
 
 	},
-	action: function(params) {
-		
+	simplePartials: function(childViews) {
+		this.childViews = childViews;
 	},
 	/**
 	 * Method renderPartials(req, res, next, partials)

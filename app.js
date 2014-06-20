@@ -13,7 +13,7 @@ var app = express();
 
 // view engine setup
 var template = 'default';
-app.set('views', path.join(__dirname, 'view/templates/' + template));
+app.set('views', path.join(__dirname, 'view/template/' + template));
 app.set('view engine', 'hjs');
 
 app.use(favicon());

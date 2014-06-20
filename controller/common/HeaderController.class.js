@@ -2,10 +2,13 @@ var Controller = require('../../engine/Controller.class');
 
 var HeaderController = (new Controller()).extend({
 	exposedActions: {
-		init: false,
-		index: false
+		init: false
 	},
 	init: function() {
+		this.req = arguments[0];
+		this.res = arguments[1];
+		this.next = arguments[2];
+
 		this.groupName = 'common';
 		this.controllerName = 'header';
 		this.route = 'common/header';

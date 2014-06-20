@@ -1,7 +1,11 @@
 var Controller = require('../../engine/Controller.class');
 
 var HomeController = (new Controller()).extend({
-	init: function() {
+	init: function(req, res, next) {
+		this.req = req || arguments[0];
+		this.res = res || arguments[1];
+		this.next = next || arguments[2];
+
 		this.groupName = 'common';
 		this.controllerName = 'home';
 		this.route = 'common/home';

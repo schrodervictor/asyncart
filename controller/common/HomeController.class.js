@@ -13,33 +13,30 @@ var HomeController = (new Controller()).extend({
 		this.data = {};
 	},
 	
-	index: function(req, res, next) {
+	index: function() {
 		self = this;
 
 		this.data = {
 			title: 'Homepage of NodeCart',
 			content: 'Welcome to the main page',
 		};
+		this.res.locals.title = 'Homepage of NodeCart';
 
-		this.renderPartials(req, res, next, [
-			'columnLeft',
-			'columnRight',
-			'contentTop',
-			'contentBottom',
-			'header',
-			'footer'
-		]);
-		/*
-		view.partials({
-			header: 'header',
-//			contentTop: 'contentTop',
-//			contentBottom: 'contentBottom',
-			footer: 'footer'
+		this.renderedPartials({
+			columnLeft: 'common/columnLeft',
+			columnRight: 'common/columnRight',
+			contentTop: 'common/contentTop',
+			contentBottom: 'common/contentBottom',
+			header: 'common/header',
+			footer: 'common/footer'
+		});
+/*
+		this.simplePartials({
+			header: 'header'
 		});
 */
-		console.log('called render');
 
-		this.render(res);
+		this.render();
 	},
 });
 

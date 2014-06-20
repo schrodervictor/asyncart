@@ -1,6 +1,11 @@
 var Extendable = require('./Extendable.class');
 
 var Controller = (new Extendable()).extend({
+	init: function(req, res, next) {
+		this.req = req || arguments[0];
+		this.res = res || arguments[1];
+		this.next = next || arguments[2];
+	},
 	exposedActions: {
 		index: true,
 		action: true,

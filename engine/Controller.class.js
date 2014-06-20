@@ -69,6 +69,13 @@ var Controller = (new Extendable()).extend({
 		// Method renderAsPartial needs to finish calling this line
 		this.render(callback);
 	},
+	requireController: function(route) {
+		route = route.split('/');
+		group = route.shift();
+		controller = route.shift();
+		controller = controller.charAt(0).toUpperCase() + controller.substr(1);
+		return require('../controller/' + group + '/' + controller + 'Controller.class');
+	},
 	/**
 	 * This method delegates the answer for a request
 	 * to other controller, without a redirect.

@@ -89,19 +89,23 @@ var Controller = (new Extendable()).extend({
 	 */
 	forward: function(req, res, next, route) {
 		route = route.split('/');
-		group = route.shift();
-		controller = route.shift();
+		var group = route.shift();
+		var controller = route.shift();
 		controller = controller.charAt(0).toUpperCase() + controller.substr(1).toLowerCase();
-		action = route.shift() || 'index';
+		var action = route.shift() || 'index';
 		var Page = require('../controller/' + group + '/' + controller + 'Controller.class');
-		(new Page())[req.action || 'index'](req, res, next);
+		var page = new Page(req, res, next);
+		if(page.isExposedAction(action)) {
+			page[action](req, res, next);
+		} else {
+			next();
+		}
 	},
 	render: function(res) {
 		var View = require('../engine/View.class');
 		var view = new View(res, this.controllerName);
 		view.render(this.data);
 	}
-
 });
 
 module.exports = Controller;

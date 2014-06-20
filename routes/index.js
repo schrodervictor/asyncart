@@ -25,8 +25,8 @@ router.param('action', function(req, res, next, action) {
     next();
 });
 
-/* GET foo => forward to common/home */
-router.get('/foo', function(req, res, next) {
+/* Forward all requests from / to common/home */
+router.all('/', function(req, res, next) {
 	var Controller = require('../engine/Controller.class');
 	new Controller().forward(req, res, next, 'common/home');
 });
@@ -34,9 +34,9 @@ router.get('/foo', function(req, res, next) {
 /* GET home page. */
 router.get('/:group/:controller/:action?', function(req, res, next) {
 	var Page = require('../controller/' + req.group + '/' + req.controller + 'Controller.class');
-	var page = new Page();
+	var page = new Page(req, res, next);
 	if(page.isExposedAction(req.action || 'index')) {
-		page[req.action || 'index'](req, res, next);
+		page[req.action || 'index']();
 	} else {
 		next();
 	}

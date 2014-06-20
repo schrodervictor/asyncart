@@ -42,9 +42,4 @@ router.get('/:group/:controller/:action?', function(req, res, next) {
 	}
 });
 
-router.get('/teste', function(req, res, next) {
-	content = new ContentController();
-	content.run(req, res, next);
-});
-
 module.exports = router;

@@ -12,6 +12,7 @@ var HeaderController = (new Controller()).extend({
 		this.groupName = 'common';
 		this.controllerName = 'header';
 		this.route = 'common/header';
+		this.template = 'common/header';
 		this.data = {};
 	},
 	

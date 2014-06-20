@@ -9,6 +9,7 @@ var HomeController = (new Controller()).extend({
 		this.groupName = 'common';
 		this.controllerName = 'home';
 		this.route = 'common/home';
+		this.template = 'common/home';
 		this.data = {};
 	},
 	

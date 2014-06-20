@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var session = require('express-session');
 var bodyParser = require('body-parser');
+var database = require('./engine/Database');
 
 
 var app = express();
@@ -35,27 +36,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 //TODO Try to make cache works without this line
 app.disable('etag');
 
-var MongoClient = require('mongodb').MongoClient;
-var DB = {};
-
-MongoClient.connect('mongodb://' + config.mongo.host + ':' + config.mongo.port + '/fastdelivery', function(err, db) {
-    if(err) {
-        console.log('Sorry, there is no MongoDB server running');
-        err.status = 500;
-        next(err);
-    } else {
-        // TODO Add an event emitter?
-        DB = db;
-    };
-});
-
-app.use(function(req, res, next) {
-    // TODO Add an event listener?
-    console.log('DB attached');
-    req.db = DB;
-    next();
-});
-
 
 /*
 var routes = require('./routes/index');
@@ -75,6 +55,7 @@ for (var i = 0, j = groups.length; i < j; i++) {
         app.use('/' + groups[i], require('./routes/' + groups[i]));
     }
 };*/
+app.use(database());
 app.use('/admin', require('./routes/admin'));
 app.use('/', require('./routes/index'));
 

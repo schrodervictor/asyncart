@@ -2,7 +2,8 @@ var config = {
 	version: '0.0.1',
 	mongo: {
 		host: 'localhost',
-		port: '27017'
+		port: '27017',
+		database: 'nodecart'
 	},
 	session: {
 		secret: 'some secret ebh549n'

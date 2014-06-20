@@ -1,5 +1,4 @@
 {{{ header }}}
-	<body>
 		{{{ columnLeft }}}
 		{{{ contentTop }}}
 		<div class="container">
@@ -8,5 +7,4 @@
 		</div>
 		{{{ contentBottom }}}
 		{{{ columnRight }}}
-	</body>
 {{{ footer }}}

@@ -16,22 +16,20 @@ var HeaderController = (new Controller()).extend({
 		this.data = {};
 	},
 	
-	index: function(req, res, next) {
+	renderAsPartial: function(callback) {
 		self = this;
 
 		this.data = {
-
+			title: 'Second title',
 		};
 
-		this.renderPartials(req, res, next, [
-			'cart',
-			'language',
-			'currency',
-		]);
+		this.renderedPartials({
+			cart: 'module/cart',
+			language: 'module/language',
+			currency: 'module/currency',
+		});
 
-		console.log('called render');
-
-		this.render(res);
+		this.render(callback);
 	},
 });
 

@@ -16,7 +16,7 @@ var Controller = (new Extendable()).extend({
 		this.childViews = childViews;
 	},
 	/**
-	 * Method renderPartials(req, res, next, partials)
+	 * Method renderedPartials(req, res, next, partials)
 	 * This method is destinated to render partials views
 	 * completelly. They will really render BEFORE the final
 	 * rendering. That means these partials will be available
@@ -24,7 +24,7 @@ var Controller = (new Extendable()).extend({
 	 * placed inside the view with triple mustache.
 	 * For example, this call in a controller method:
 	 *
-	 * this.renderPartials(req, res, next, {
+	 * this.renderedPartials({
 	 *     header: 'header',
 	 *     footer: 'footer'	
 	 * });
@@ -39,13 +39,26 @@ var Controller = (new Extendable()).extend({
 	 *     {{{ header }}}
 	 *     {{{ footer }}}
 	 */
-	renderPartials: function(req, res, next, partials) {
-		var View = require('../engine/View.class');
-		for (var i = 0, j = partials.length; i < j; i++) {
-			console.log(partials[i]);
-			res.render(partials[i], null, function(err, html) {
-				if(err) next(err);
-				else res.locals[partials[i]] = html;
+	renderedPartials: function(partials) {
+		self = this;
+		var group, controller, action;
+		//for (var i = 0, j = partials.length; i < j; i++) {
+		for(var key in partials) {
+			if(!partials.hasOwnProperty(key)) continue;
+
+			route = partials[key].split('/');
+			group = route.shift();
+			controller = route.shift();
+			controller = controller.charAt(0).toUpperCase() + controller.substr(1);
+			action = route.shift() || 'renderAsPartial';
+			var PartialController = require('../controller/' + group + '/' + controller + 'Controller.class');
+			partialController = new PartialController(self.req, self.res, self.next);
+			partialController[action](function(err, html) {
+				if(err) {
+					self.next(err)
+				} else {
+					self.res.locals[key] = html;
+				}
 			});
 		};
 	},

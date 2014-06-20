@@ -41,7 +41,7 @@ module.exports.prototype = {
 		for(var key in properties) {
 			if('constructor' === key) continue;
 			if('publicMethods' === key) {
-				Child.prototype['publicMethods'] = merge(properties['publicMethods'], parent['publicMethods'])
+				Child.prototype['exposedActions'] = merge(properties['exposedActions'], parent['exposedActions'])
 			}
 			// TODO prototype only functions. For some reason
 			// the "if" statement below blocks the assigment for properties
@@ -56,11 +56,16 @@ module.exports.prototype = {
 		}
 		return Child;
 	},
+	// TODO OK, this works, but it would be better if placed
+	// inside the Controller base class. Not all extendable
+	// classes needs the 'exposedActions' attribute and
+	// 'isExposedAction' method
 	exposedActions: {
 		extend: false,
 		isExtendable: false,
 		isPrivate: false
 	},
+	// See previous TODO
 	isExposedAction: function(action) {
 		return this.exposedActions[action] || false;
 	},

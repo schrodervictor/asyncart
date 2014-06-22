@@ -1,8 +1,8 @@
-var Model = require('../engine/Model.class');
+var Model = require('../../engine/Model.class');
 var crypto = require('crypto');
 var model = new Model();
 
-var ContentModel = model.extend({
+var HomeModel = model.extend({
 	insert: function(data, callback) {
 		data.id = crypto.randomBytes(20).toString('hex');
 		this.lastID = data.id;
@@ -23,5 +23,5 @@ var ContentModel = model.extend({
 	lastID: null
 });
 
-module.exports = ContentModel;
+module.exports = HomeModel;
 

@@ -1,4 +1,4 @@
-var Model = require('../engine/Model.class');
+var Model = require('../../engine/Model.class');
 
 var Model = (new Model()).extend({
 	collection: function() {

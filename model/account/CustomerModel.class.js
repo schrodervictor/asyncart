@@ -62,6 +62,20 @@ var CustomerModel = model.extend({
 		});
 			
 	},
+	getCustomerByEmail: function(email, callback) {
+
+		this.collection.findOne({email: email}, function(err, userData) {
+			if(err) return callback(err);
+
+			console.log(userData);
+
+			callback(null, userData);
+
+		});
+
+
+
+	},
 	update: function(data, callback) {
 		this.collection().update({id: data.id}, data, {}, callback || function(){});
 	},

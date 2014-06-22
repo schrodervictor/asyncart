@@ -51,7 +51,6 @@ var CustomerModel = model.extend({
 
 		    	self.collection.insert(customer, {w:1}, function(err, result){
 		    		if(err) return callback(err);
-		    		console.log(result);
 		    		callback(null, result);
 		    	});
 
@@ -66,28 +65,17 @@ var CustomerModel = model.extend({
 
 		this.collection.findOne({email: email}, function(err, userData) {
 			if(err) return callback(err);
-
-			console.log(userData);
-
 			callback(null, userData);
-
 		});
 
+	},
+	update: function(id, data, callback) {
+		this.collection.update({id: id}, {'$set': data}, {w: 1}, function(err, result){
+			if(err) return callback(err);
+			callback();
+		});
+	},
 
-
-	},
-	update: function(data, callback) {
-		this.collection().update({id: data.id}, data, {}, callback || function(){});
-	},
-	getList: function(callback, query) {
-		this.collection().find(query || {}.toArray(callback));
-	},
-	remove: function(id, callback) {
-		this.collection().findandModify({id: id}, [], {}, {remove:true}, callback);
-	},
-	getUser: function(id, callback) {
-		this.collection().findOne({id: id}, callback);
-	},
 });
 
 module.exports = CustomerModel;

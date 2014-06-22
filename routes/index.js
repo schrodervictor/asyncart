@@ -31,6 +31,20 @@ router.all('/', function(req, res, next) {
 	new Controller().forward(req, res, next, 'common/home');
 });
 
+/* GET category/999/product/999 */
+router.get('/category/:category/product/:product', function(req, res, next) {
+
+	res.json(req.params);
+	/*
+	var Page = require('../controller/' + req.group + '/' + req.controller + 'Controller.class');
+	var page = new Page(req, res, next);
+	if(page.isExposedAction(req.action || 'index')) {
+		page[req.action || 'index']();
+	} else {
+		next();
+	}*/
+});
+
 /* GET home page. */
 router.get('/:group/:controller/:action?', function(req, res, next) {
 	var Page = require('../controller/' + req.group + '/' + req.controller + 'Controller.class');

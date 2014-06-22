@@ -16,10 +16,10 @@ var HeaderController = (new Controller()).extend({
 		this.data = {};
 	},
 	
-	renderAsPartial: function(callback) {
-		self = this;
+	renderAsPartial: function(origCallback) {
+		var self = this;
 
-		this.data = {
+		self.data = {
 			title: 'Second title',
 		};
 

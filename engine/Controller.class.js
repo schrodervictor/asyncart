@@ -39,9 +39,16 @@ var Controller = (new Extendable()).extend({
 	 *     {{{ header }}}
 	 *     {{{ footer }}}
 	 */
-	renderedPartials: function(partials) {
-		self = this;
-		var group, controller, action;
+	renderedPartials: function(partials, origCallback) {
+		
+		// Tip for the future. Once I forgot to right this little "var" in the
+		// line bellow ("self = this", instead of "var self = this").
+		// It was weird and leaded to a bug that was very hard to find, because
+		// it changed the value of "self" in the caller function.
+		// NEVER FORGET the "var" in your local variable declarations!!
+		var self = this;
+		var stack = [];
+
 		//for (var i = 0, j = partials.length; i < j; i++) {
 		for(var key in partials) {
 			if(!partials.hasOwnProperty(key)) continue;
@@ -62,12 +69,12 @@ var Controller = (new Extendable()).extend({
 			});
 		};
 	},
-	renderAsPartial: function(callback) {
+	renderAsPartial: function(origCallback) {
 		// each controller can override this method
 		// to control the behavior when rendered as a partial
 
 		// Method renderAsPartial needs to finish calling this line
-		this.render(callback);
+		this.render(origCallback);
 	},
 	requireController: function(route) {
 		route = route.split('/');
@@ -88,7 +95,7 @@ var Controller = (new Extendable()).extend({
 	 *
 	 */
 	forward: function(req, res, next, route) {
-		route = route.split('/');
+		var route = route.split('/');
 		var group = route.shift();
 		var controller = route.shift();
 		controller = controller.charAt(0).toUpperCase() + controller.substr(1).toLowerCase();
@@ -101,9 +108,10 @@ var Controller = (new Extendable()).extend({
 			next();
 		}
 	},
-	render: function(callback) {
-		if (!!this.childViews) this.data.partials = this.childViews;
-		this.res.render(this.template, this.data, callback);
+	render: function(origCallback) {
+		var self = this;
+		if (!!self.childViews) self.data.partials = self.childViews;
+		self.res.render(self.template, self.data, origCallback);
 	}
 });
 

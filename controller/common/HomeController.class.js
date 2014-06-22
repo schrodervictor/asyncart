@@ -14,7 +14,7 @@ var HomeController = (new Controller()).extend({
 	},
 	
 	index: function() {
-		self = this;
+		var self = this;
 
 		this.data = {
 			title: 'Homepage of NodeCart',

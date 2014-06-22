@@ -1,6 +1,6 @@
 var Controller = require('../../engine/Controller.class');
 var View = require('../../engine/View.class');
-var AdminModel = require('../../model/AdminModel.class');
+var AdminModel = require('../../model/admin/AdminModel.class');
 
 var AdminController = (new Controller()).extend({
 	name: 'Admin',

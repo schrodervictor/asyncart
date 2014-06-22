@@ -32,6 +32,12 @@ SessionStore.prototype.get = function(sid, callback) {
     this.collection.findOne({sid: sid}, function(err, doc) {
         if(err) return callback(err);
 
+        // TODO Better treatment with invalid sid's
+        if(!doc) {
+            console.log('Invalid Session');
+            return callback();
+        }
+
         console.log('SessionStore.get sessionData:')
         console.log(doc);
 
@@ -63,6 +69,7 @@ SessionStore.prototype.set = function(sid, session, callback) {
 }
 
 SessionStore.prototype.destroy = function(sid, callback) {
+    var callback = callback || function(){};
 
     this.collection.findAndRemove({sid: sid}, [['sid', 1]], function(err, result) {
         if(err) return callback(err);

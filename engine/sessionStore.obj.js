@@ -12,9 +12,7 @@ function SessionStore() {
                         '/' + config.mongo.database, function(err, db) {
         if(err) {
             console.log('Sorry, there is no MongoDB server running');
-            error.status = 500;
-            error.message = 'No access to DB for sessionStore';
-            throw new Error(error);
+            throw new Error('No access to DB for sessionStore');
         } else {
             console.log('DB object attached for sessionStore');
             self.db = db;
@@ -35,6 +33,7 @@ SessionStore.prototype.get = function(sid, callback) {
         // TODO Better treatment with invalid sid's
         if(!doc) {
             console.log('Invalid Session');
+            
             return callback();
         }
 

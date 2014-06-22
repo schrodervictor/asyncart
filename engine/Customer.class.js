@@ -52,6 +52,12 @@ Customer.prototype = {
 
 
 	},
+	logout: function() {
+		var session = this.req.session;
+		session.destroy();
+//		this.req.sessionID = null;
+//		session = null;
+	},
 	loadCustomer: function(email, callback) {
 		this.customerModel.getCustomerByEmail(email, function(err, customerData) {
 			if(err) return callback(err);
@@ -74,6 +80,7 @@ Customer.prototype = {
 
 		this.loadCustomer(email, function(err, customerData) {
 			if(err) return callback(err);
+			if(!customerData) return callback('Customer not found!');
 
 			crypto.pbkdf2(password, customerData.salt, 1000, 128, function(err, key) {
 				if(err) return callback(err);
@@ -81,7 +88,7 @@ Customer.prototype = {
 				if(key.toString('base64') === customerData.password) {
 					callback(null, customerData);
 				} else {
-					callback(err);
+					callback('Password doesn\'t match!');
 				}
         	});
 		});

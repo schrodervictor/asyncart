@@ -12,7 +12,7 @@ var CustomerModel = model.extend({
 	addCustomer: function(data, origCallback) {
 		var self = this;
 		var _salt, _pass;
-		var password = 'teste';
+		var password = data.password;
 		var iterations = 1000;
 		var keylen = 128;
 
@@ -38,28 +38,12 @@ var CustomerModel = model.extend({
 		    function(callback) {
 
 				// TODO data validation
-				var customer = {
-					// id:
-					firstname: 'Victor',
-					lastname: 'Schröder',
-					email: 'schrodervictor@gmail.com',
-					telephone: '+00 000 0000 0000',
-					salt: _salt,
-					password: _pass,
-					cart: {},
-					wishlist: {},
-					newsletter: true,
-					addresses: [
-						{  },
-						{  }
-					],
-					groups: ['default'],
-					ips: ['127.0.0.1'],
-					additionalFields: {},
-					status: 1,
-					approved: true,
-					dateAdded: new Date()
-				};
+				var customer = data;
+					customer.password = _pass;
+					customer.salt = _salt;
+					customer.status = 1;
+					customer.approved = true;
+					customer.dateAdded = new Date();
 
 		        callback(null, customer);
 		    },

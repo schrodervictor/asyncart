@@ -30,7 +30,25 @@ var HeaderController = (new Controller()).extend({
 
 		    function(callback) {
 
-				self.modelCustomer.addCustomer(null, function(err, result){
+		    	var customerData = {
+					firstname: 'Victor',
+					lastname: 'Schröder',
+					email: 'schrodervictor@gmail.com',
+					telephone: '+00 000 0000 0000',
+					password: 'teste',
+					cart: {},
+					wishlist: {},
+					newsletter: true,
+					addresses: [
+						{  },
+						{  }
+					],
+					groups: ['default'],
+					ips: ['127.0.0.1'],
+					additionalFields: {},
+				};
+
+				self.modelCustomer.addCustomer(customerData, function(err, result){
 					if(err) return callback(err);
 					self.res.locals.newId = result[0]._id;
 		        	callback();

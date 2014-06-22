@@ -8,7 +8,7 @@ var cookieSession = require('cookie-session');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var database = require('./engine/Database');
-
+var sessionStore = require('./engine/sessionStore.obj');
 
 var app = express();
 
@@ -24,7 +24,8 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(session({
     secret: config.session.secret,
-    cookie: { maxAge: config.cookie.maxAge }
+    cookie: { maxAge: config.cookie.maxAge },
+    store: sessionStore
 }));
 //app.use(cookieSession({
 //    keys: ['key1', 'key2']

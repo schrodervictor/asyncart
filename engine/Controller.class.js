@@ -1,4 +1,5 @@
 var Extendable = require('./Extendable.class');
+var async = require('async');
 
 var Controller = (new Extendable()).extend({
 	init: function(req, res, next) {
@@ -53,21 +54,45 @@ var Controller = (new Extendable()).extend({
 		for(var key in partials) {
 			if(!partials.hasOwnProperty(key)) continue;
 
-			route = partials[key].split('/');
-			group = route.shift();
-			controller = route.shift();
-			controller = controller.charAt(0).toUpperCase() + controller.substr(1);
-			action = route.shift() || 'renderAsPartial';
-			var PartialController = require('../controller/' + group + '/' + controller + 'Controller.class');
-			partialController = new PartialController(self.req, self.res, self.next);
-			partialController[action](function(err, html) {
-				if(err) {
-					self.next(err)
-				} else {
-					self.res.locals[key] = html;
-				}
-			});
+				// We have to use a clojure here to grant that the value of
+				// key will be what we really expect. If removed, can lead to strange
+				// results, such like rendering only one part of the page, multiple times
+				// and skipping all other parts
+				var task = (function(key){
+
+					return function(callback) {
+
+						var k = key;
+						var route = partials[k].split('/');
+						var group = route.shift();
+						var controller = route.shift();
+						controller = controller.charAt(0).toUpperCase() + controller.substr(1);
+						var action = route.shift() || 'renderAsPartial';
+						var PartialController = require('../controller/' + group + '/' + controller + 'Controller.class');
+						var partialController = new PartialController(self.req, self.res, self.next);
+						partialController[action](function(err, html) {
+							if(err) {
+								callback(err);
+							} else {
+								self.res.locals[k] = html;
+								//console.log('Rendered: ' + k + ' - result: ' + html);
+								callback();
+							}
+						});
+					
+					};
+				})(key);
+			
+			stack.push(task);
 		};
+
+		console.log(stack);
+
+		async.parallel(stack, function(err) {
+			if(err) return origCallback(err);
+			//console.log('Calling origCallback in RenderedPartials');
+			origCallback();
+		});
 	},
 	renderAsPartial: function(origCallback) {
 		// each controller can override this method

@@ -29,6 +29,12 @@ var HomeController = (new Controller()).extend({
 			contentBottom: 'common/contentBottom',
 			header: 'common/header',
 			footer: 'common/footer'
+		}, function(err) {
+
+			console.log(self.res.locals);
+
+			self.render();
+			
 		});
 /*
 		this.simplePartials({
@@ -36,7 +42,6 @@ var HomeController = (new Controller()).extend({
 		});
 */
 
-		this.render();
 	},
 });
 

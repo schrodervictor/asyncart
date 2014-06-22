@@ -1,4 +1,5 @@
 var Controller = require('../../engine/Controller.class');
+var async = require('async');
 
 var HeaderController = (new Controller()).extend({
 	exposedActions: {
@@ -23,13 +24,38 @@ var HeaderController = (new Controller()).extend({
 			title: 'Second title',
 		};
 
-		this.renderedPartials({
-			cart: 'module/cart',
-			language: 'module/language',
-			currency: 'module/currency',
+		self.modelCustomer = new (require('../../model/account/CustomerModel.class'))(self.req, self.res);
+
+		async.waterfall([
+
+		    function(callback) {
+
+				self.modelCustomer.addCustomer(null, function(err, result){
+					if(err) return callback(err);
+					self.res.locals.newId = result[0]._id;
+		        	callback();
+				});
+		    
+		    },
+		    function(callback) {
+
+				//self.modules = self.model.getModules();
+				self.modules = {
+					cart: 'module/cart',
+					language: 'module/language',
+					currency: 'module/currency',
+				};
+
+				self.renderedPartials(self.modules, function(err, result){
+					callback();
+				});
+		    	
+		    }
+		], function(err) {
+			if(err) return origCallback(err);
+			self.render(origCallback);
 		});
 
-		this.render(callback);
 	},
 });
 

@@ -4,6 +4,7 @@ var async = require('async');
 var HeaderController = (new Controller()).extend({
     exposedActions: {
         init: false,
+        customer: true
     },
     init: function() {
         this.req = arguments[0];
@@ -15,6 +16,33 @@ var HeaderController = (new Controller()).extend({
         this.route = 'common/header';
         this.template = 'common/header';
         this.data = {};
+    },
+    customer: function(next) {
+        console.log('Inside method customer in HeaderController');
+        var self = this;
+        var session = this.req.session;
+        self.template = 'common/customer-test';
+
+        var Customer = require('../../engine/Customer.class');
+
+        var customer = new Customer(self.req);
+        console.log('New Customer instance created');
+
+        customer.login('schrodervictor@gmail.com', 'teste', function(err) {
+            console.log('customer.login called');
+
+            if(err) return next(err);
+
+            self.data = {
+                loginMessage: 'Login Successful!',
+                customerName: session.customer.firstname + ' ' + session.customer.lastname,
+                customerData: JSON.stringify(session.customer)
+            }
+
+            self.render();
+
+        });
+
     },
     renderAsPartial: function(origCallback) {
         var self = this;

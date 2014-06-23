@@ -31,7 +31,7 @@ var HomeController = (new Controller()).extend({
 			footer: 'common/footer'
 		}, function(err) {
 
-			console.log(self.res.locals);
+			//console.log(self.res.locals);
 
 			self.render();
 			

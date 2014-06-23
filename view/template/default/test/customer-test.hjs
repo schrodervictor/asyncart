@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<body>
-		{{loginMessage}}
-	    {{customerName}}
-	    {{customerData}}
+		<p>{{message}}</p>
+	    <p>{{info1}}</p>
+	    <p>{{info2}}</p>
 	</body>
 </html>

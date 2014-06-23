@@ -5,7 +5,10 @@
 		<link rel="stylesheet" href="/stylesheets/style.css" />
 	</head>
 	<body>
-		<p>New Id: {{ newId }}</p>
+		<p>Customer Id: {{ customerId }}</p>
+		{{#customerName}}
+			<p>Welcome, {{customerName}}</p>
+		{{/customerName}}
 		{{{ cart }}}
 		{{{ language }}}
 		{{{ currency }}}

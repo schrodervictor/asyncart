@@ -26,19 +26,14 @@ SessionStore.prototype.__proto__ = Store.prototype;
 SessionStore.prototype.constructor = SessionStore;
 
 SessionStore.prototype.get = function(sid, callback) {
+    
+    console.log('SessionStore.get sid: ' + sid);
 
     this.collection.findOne({sid: sid}, function(err, doc) {
         if(err) return callback(err);
 
         // TODO Better treatment with invalid sid's
-        if(!doc) {
-            console.log('Invalid Session');
-            
-            return callback();
-        }
-
-        console.log('SessionStore.get sessionData:')
-        console.log(doc);
+        if(!doc) return callback();
 
         if('sessionData' in doc) {
             callback(null, doc.sessionData);
@@ -52,8 +47,7 @@ SessionStore.prototype.get = function(sid, callback) {
 
 SessionStore.prototype.set = function(sid, session, callback) {
 
-    console.log('SessionStore.set session:');
-    console.log(session);
+    console.log('SessionStore.set sid: ' + sid);
 
     this.collection.update({sid: sid},
                            {sid: sid, sessionData: session},
@@ -68,6 +62,8 @@ SessionStore.prototype.set = function(sid, session, callback) {
 }
 
 SessionStore.prototype.destroy = function(sid, callback) {
+    console.log('SessionStore.destroy sid: ' + sid);
+    
     var callback = callback || function(){};
 
     this.collection.findAndRemove({sid: sid}, [['sid', 1]], function(err, result) {

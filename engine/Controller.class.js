@@ -86,7 +86,7 @@ var Controller = (new Extendable()).extend({
 			stack.push(task);
 		};
 
-		console.log(stack);
+		//console.log(stack);
 
 		async.parallel(stack, function(err) {
 			if(err) return origCallback(err);

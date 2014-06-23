@@ -69,8 +69,8 @@ var CustomerModel = model.extend({
 		});
 
 	},
-	update: function(id, data, callback) {
-		this.collection.update({id: id}, {'$set': data}, {w: 1}, function(err, result){
+	update: function(_id, data, callback) {
+		this.collection.update({_id: _id}, {'$set': data}, {w: 1}, function(err, result){
 			if(err) return callback(err);
 			callback();
 		});

@@ -28,44 +28,80 @@ Customer.prototype = {
 
 			if(err) return callback(err);
 
-			session.customer = customerData;
+			if(!customerData) return callback('No data received');
+
 			if('lastSession' in customerData) {
+
+				console.log('There is a lastSession: ' + customerData.lastSession);
+
+				console.log('Old req.sessionID: ' + self.req.sessionID);
+
 				self.req.sessionID = customerData.lastSession;
+				session.id = customerData.lastSession;
+
+				console.log('New req.sessionID: ' + self.req.sessionID);
+
 				session.reload(function(err) {
 					if(err) return callback(err);
+
+					session.customer = customerData;
 					session.isLoggedCustomer = true;
 					session.save();
+
 					callback();
 				});
+			
 			} else {
+			
+				console.log('There is no lastSession');
+
+				session.customer = customerData;
 				session.isLoggedCustomer = true;
+
 				session.save(function(err) {
 					if(err) return callback(err);
+
 					self.persistSession(self.req.sessionID, function(err) {
 						if(err) return callback(err);
+
 						callback();
 					});
+
 				});
+
 			}
 
 		}
 
 
 	},
-	logout: function() {
+	logout: function(callback) {
+		var self = this;
 		var session = this.req.session;
-		session.destroy();
+
+		callback = callback || function(){};
+
+		self.persistSession(self.req.sessionID, function(err) {
+			if(err) return callback(err);
+			session.destroy();
+			callback();
+		});
+
+
 //		this.req.sessionID = null;
 //		session = null;
 	},
 	loadCustomer: function(email, callback) {
+
 		this.customerModel.getCustomerByEmail(email, function(err, customerData) {
 			if(err) return callback(err);
 			if(!customerData) return callback('Customer not found!');
 			callback(null, customerData);
 		});
+	
 	},
 	updateCustomer: function(dataToUpdate, callback) {
+
 		if(    !('session' in this.req)
 			|| !('customer' in this.req.session)
 			|| !('_id' in this.req.session.customer)) {
@@ -74,12 +110,14 @@ Customer.prototype = {
 
 		}
 
-		this.customerModel.update(this.req.session.customer.id, dataToUpdate, callback /*function(err, result){}*/);
+		this.customerModel.update(this.req.session.customer._id, dataToUpdate, callback /*function(err, result){}*/);
+	
 	},
 	checkPassword: function(email, password, callback) {
 
 		this.loadCustomer(email, function(err, customerData) {
 			if(err) return callback(err);
+
 			if(!customerData) return callback('Customer not found!');
 
 			crypto.pbkdf2(password, customerData.salt, 1000, 128, function(err, key) {
@@ -92,6 +130,7 @@ Customer.prototype = {
 				}
         	});
 		});
+	
 	},
 	persistSession: function(sid, callback) {
 		this.updateCustomer({lastSession: sid}, function(err, result) {

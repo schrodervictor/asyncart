@@ -11,14 +11,15 @@ var CategoryController = (new Controller()).extend({
 		this.controllerName = 'category';
 		this.route = 'catalog/category';
 		this.template = 'catalog/category';
+		this.loaderOn();
 		this.data = {};
 	},
 	
 	index: function() {
 		var self = this;
 
-   		self.modelCatalogCategory = new (require('../../model/catalog/CategoryModel.class'))(self.req, self.res);
-   		self.modelCatalogProduct = new (require('../../model/catalog/ProductModel.class'))(self.req, self.res);
+   		this.load.model('catalog/category');
+   		this.load.model('catalog/product');
 
 		async.series([
 			function(callback) {

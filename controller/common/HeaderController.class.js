@@ -14,6 +14,7 @@ var HeaderController = (new Controller()).extend({
         this.controllerName = 'header';
         this.route = 'common/header';
         this.template = 'common/header';
+        this.loaderOn();
         this.data = {};
     },
     renderAsPartial: function(origCallback) {
@@ -24,8 +25,7 @@ var HeaderController = (new Controller()).extend({
             title: 'Second title',
         };
 
-        var Customer = require('../../engine/Customer.class');
-        var customer = new Customer(self.req);
+        var customer = self.load.engine('customer');
 
         if(customer.isLogged()) {
             self.data.customerName = session.customer.firstname + ' ' + session.customer.lastname;

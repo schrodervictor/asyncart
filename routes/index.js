@@ -13,6 +13,9 @@ router.param('controller', function(req, res, next, controller) {
 	// TODO implement validation of this entry (for safety)
 	// TODO Add suport for multiple word controller files
     req.controller = controller.charAt(0).toUpperCase() + controller.substr(1).toLowerCase();
+    if(req.group) {
+    	req.controllerPath = req.group + '/' + req.controller;
+    }
     console.log('Controller: ' + req.controller);
     next();
 });
@@ -34,15 +37,14 @@ router.param('category', function(req, res, next, category) {
 
 /* Forward all requests from / to common/home */
 router.all('/', function(req, res, next) {
-	var Controller = require('../engine/Controller.class');
-	new Controller().forward(req, res, next, 'common/home');
+	var controller = req.load.engine('controller');
+	controller.forward('common/home');
 });
 
 /* GET category/999-888-777/product/999 */
 router.get('/category/:category/product/:product', function(req, res, next) {
 
-	var Page = require('../controller/catalog/ProductController.class');
-	var page = new Page(req, res, next);
+	var page = req.load.controller('catalog/product');
 	if(page.isExposedAction(req.action || 'index')) {
 		page[req.action || 'index']();
 	} else {
@@ -53,8 +55,7 @@ router.get('/category/:category/product/:product', function(req, res, next) {
 /* GET category/999-888-777 */
 router.get('/category/:category', function(req, res, next) {
 
-	var Page = require('../controller/catalog/CategoryController.class');
-	var page = new Page(req, res, next);
+	var page = req.load.controller('catalog/category');
 	if(page.isExposedAction(req.action || 'index')) {
 		page[req.action || 'index']();
 	} else {
@@ -64,8 +65,7 @@ router.get('/category/:category', function(req, res, next) {
 
 /* GET home page. */
 router.get('/:group/:controller/:action?', function(req, res, next) {
-	var Page = require('../controller/' + req.group + '/' + req.controller + 'Controller.class');
-	var page = new Page(req, res, next);
+	var page = req.load.controller(req.controllerPath);
 	if(page.isExposedAction(req.action || 'index')) {
 		page[req.action || 'index']();
 	} else {

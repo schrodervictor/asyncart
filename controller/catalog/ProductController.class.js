@@ -11,6 +11,7 @@ var ProductController = (new Controller()).extend({
 		this.controllerName = 'product';
 		this.route = 'catalog/product';
 		this.template = 'catalog/product';
+		this.loaderOn();
 		this.data = {};
 	},
 	
@@ -21,7 +22,7 @@ var ProductController = (new Controller()).extend({
 
 			function(callback) {
 			
-			    self.modelCatalogProduct = new (require('../../model/catalog/ProductModel.class'))(self.req, self.res);
+			    self.load.model('catalog/product');
 
 		        self.modelCatalogProduct.getProduct(function(err, productData) {
 
@@ -86,8 +87,8 @@ var ProductController = (new Controller()).extend({
 			separator: '>'
 		});
 
-	    self.modelCatalogCategory = new (require('../../model/catalog/CategoryModel.class'))(self.req, self.res);
-
+	    self.load.model('catalog/category');
+	    
 	    var categoryChain = '';
 
 		async.eachSeries(categories, function(categoryId, callback) {

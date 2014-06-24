@@ -9,12 +9,13 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var database = require('./engine/Database');
 var sessionStore = require('./engine/sessionStore.obj');
+var loader = require('./engine/Loader.class');
 
 var app = express();
 
 // view engine setup
-var template = 'default';
-app.set('views', path.join(__dirname, 'view/template/' + template));
+var templateName = 'default';
+app.set('views', path.join(config.templatePath, templateName));
 app.set('view engine', 'hjs');
 
 app.use(favicon());
@@ -52,6 +53,7 @@ for (var i = 0, j = groups.length; i < j; i++) {
         app.use('/' + groups[i], require('./routes/' + groups[i]));
     }
 };*/
+app.use(loader);
 app.use(database());
 app.use('/admin', require('./routes/admin'));
 app.use('/', require('./routes/index'));

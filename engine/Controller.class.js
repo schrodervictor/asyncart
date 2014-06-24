@@ -137,7 +137,21 @@ var Controller = (new Extendable()).extend({
 		var self = this;
 		if (!!self.childViews) self.data.partials = self.childViews;
 		self.res.render(self.template, self.data, origCallback);
+	},
+	loaderOn: function() {
+		var loader = this.req.loader;
+		var self = this;
+		self.load = {
+			model: function(model) {
+				return loader.model(model, self);
+			},
+			controller: function(controller) {
+				return loader.controller(model, self);
+			}
+		};
 	}
+
+	
 });
 
 module.exports = Controller;

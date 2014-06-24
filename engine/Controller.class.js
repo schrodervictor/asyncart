@@ -139,14 +139,17 @@ var Controller = (new Extendable()).extend({
 		self.res.render(self.template, self.data, origCallback);
 	},
 	loaderOn: function() {
-		var loader = this.req.loader;
+		var load = this.req.load;
 		var self = this;
 		self.load = {
 			model: function(model) {
-				return loader.model(model, self);
+				return load.model(model, self);
 			},
 			controller: function(controller) {
-				return loader.controller(model, self);
+				return load.controller(model, self);
+			},
+			engine: function(className) {
+				return load.engine(className);
 			}
 		};
 	}

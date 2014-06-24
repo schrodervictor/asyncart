@@ -24,7 +24,10 @@ var HeaderController = (new Controller()).extend({
             title: 'Second title',
         };
 
-        if('customer' in session) {
+        var Customer = require('../../engine/Customer.class');
+        var customer = new Customer(self.req);
+
+        if(customer.isLogged()) {
             self.data.customerName = session.customer.firstname + ' ' + session.customer.lastname;
             self.data.customerId = session.customer._id;
         }

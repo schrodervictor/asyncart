@@ -50,6 +50,18 @@ router.get('/category/:category/product/:product', function(req, res, next) {
 	}
 });
 
+/* GET category/999-888-777 */
+router.get('/category/:category', function(req, res, next) {
+
+	var Page = require('../controller/catalog/CategoryController.class');
+	var page = new Page(req, res, next);
+	if(page.isExposedAction(req.action || 'index')) {
+		page[req.action || 'index']();
+	} else {
+		next();
+	}
+});
+
 /* GET home page. */
 router.get('/:group/:controller/:action?', function(req, res, next) {
 	var Page = require('../controller/' + req.group + '/' + req.controller + 'Controller.class');

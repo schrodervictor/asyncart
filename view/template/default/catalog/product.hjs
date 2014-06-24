@@ -1,0 +1,14 @@
+{{{ header }}}
+		{{{ columnLeft }}}
+		{{{ contentTop }}}
+		<div class="container">
+			{{#breadcrumbs}}
+			{{separator}}<a href="{{href}}">{{text}}</a>
+			{{/breadcrumbs}}
+			<h1>{{ title }}</h1>
+			<p>{{ product.name }}</p>
+			<p>{{ product.price }}</p>
+		</div>
+		{{{ contentBottom }}}
+		{{{ columnRight }}}
+{{{ footer }}}

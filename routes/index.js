@@ -25,24 +25,29 @@ router.param('action', function(req, res, next, action) {
     next();
 });
 
+router.param('category', function(req, res, next, category) {
+	// TODO implement validation of this entry (for safety)
+    req.categories = category.toLowerCase().split('-');
+    console.log('req.categories: ' + req.categories);
+    next();
+});
+
 /* Forward all requests from / to common/home */
 router.all('/', function(req, res, next) {
 	var Controller = require('../engine/Controller.class');
 	new Controller().forward(req, res, next, 'common/home');
 });
 
-/* GET category/999/product/999 */
+/* GET category/999-888-777/product/999 */
 router.get('/category/:category/product/:product', function(req, res, next) {
 
-	res.json(req.params);
-	/*
-	var Page = require('../controller/' + req.group + '/' + req.controller + 'Controller.class');
+	var Page = require('../controller/catalog/ProductController.class');
 	var page = new Page(req, res, next);
 	if(page.isExposedAction(req.action || 'index')) {
 		page[req.action || 'index']();
 	} else {
 		next();
-	}*/
+	}
 });
 
 /* GET home page. */

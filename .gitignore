@@ -1,3 +1,6 @@
 /node_modules
 /data
 /data1
+*.log
+*.old
+app-test.js

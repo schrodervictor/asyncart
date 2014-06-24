@@ -101,13 +101,6 @@ var Controller = (new Extendable()).extend({
 		// Method renderAsPartial needs to finish calling this line
 		this.render(origCallback);
 	},
-	requireController: function(route) {
-		route = route.split('/');
-		group = route.shift();
-		controller = route.shift();
-		controller = controller.charAt(0).toUpperCase() + controller.substr(1);
-		return require('../controller/' + group + '/' + controller + 'Controller.class');
-	},
 	/**
 	 * This method delegates the answer for a request
 	 * to other controller, without a redirect.
@@ -119,16 +112,16 @@ var Controller = (new Extendable()).extend({
 	 * this.forward(req, res, next, 'common/home/index');
 	 *
 	 */
-	forward: function(req, res, next, route) {
+	forward: function(route) {
 		var route = route.split('/');
 		var group = route.shift();
 		var controller = route.shift();
 		controller = controller.charAt(0).toUpperCase() + controller.substr(1).toLowerCase();
 		var action = route.shift() || 'index';
 		var Page = require('../controller/' + group + '/' + controller + 'Controller.class');
-		var page = new Page(req, res, next);
+		var page = new Page(this.req, this.res, this.next);
 		if(page.isExposedAction(action)) {
-			page[action](req, res, next);
+			page[action]();
 		} else {
 			next();
 		}
@@ -139,8 +132,9 @@ var Controller = (new Extendable()).extend({
 		self.res.render(self.template, self.data, origCallback);
 	},
 	loaderOn: function() {
-		var load = this.req.load;
+		if(!!this.load) return;
 		var self = this;
+		var load = self.req.load;
 		self.load = {
 			model: function(model) {
 				return load.model(model, self);

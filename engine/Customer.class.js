@@ -30,46 +30,14 @@ Customer.prototype = {
 
 			if(!customerData) return callback('No data received');
 
-			if('lastSession' in customerData) {
+			session.customer = customerData;
+			session.customer.isLogged = true;
 
-				console.log('There is a lastSession: ' + customerData.lastSession);
+			session.save(function(err) {
+				if(err) return callback(err);
 
-				console.log('Old req.sessionID: ' + self.req.sessionID);
-
-				self.req.sessionID = customerData.lastSession;
-				session.id = customerData.lastSession;
-
-				console.log('New req.sessionID: ' + self.req.sessionID);
-
-				session.reload(function(err) {
-					if(err) return callback(err);
-
-					session.customer = customerData;
-					session.isLoggedCustomer = true;
-					session.save();
-
-					callback();
-				});
-			
-			} else {
-			
-				console.log('There is no lastSession');
-
-				session.customer = customerData;
-				session.isLoggedCustomer = true;
-
-				session.save(function(err) {
-					if(err) return callback(err);
-
-					self.persistSession(self.req.sessionID, function(err) {
-						if(err) return callback(err);
-
-						callback();
-					});
-
-				});
-
-			}
+				callback();
+			});
 
 		}
 
@@ -81,15 +49,17 @@ Customer.prototype = {
 
 		callback = callback || function(){};
 
-		self.persistSession(self.req.sessionID, function(err) {
+		// TODO Today if the customer doesn't logout and clean
+		// the cookies, the session data will be lost (it will
+		// be somewhere inside the DB, in sessions collections,
+		// but not in the user profile)
+
+		self.persistSession(function(err) {
 			if(err) return callback(err);
 			session.destroy();
 			callback();
 		});
 
-
-//		this.req.sessionID = null;
-//		session = null;
 	},
 	loadCustomer: function(email, callback) {
 
@@ -132,12 +102,47 @@ Customer.prototype = {
 		});
 	
 	},
-	persistSession: function(sid, callback) {
-		this.updateCustomer({lastSession: sid}, function(err, result) {
-			if(err) return callback(err);
+	persistSession: function(callback) {
+
+		if(!('session' in this.req) || !('customer' in this.req.session)) {
+			return callback('No active session to persist');
+		}
+
+		var customer = this.req.session.customer;
+
+		var dataToPersist = {};
+
+		if(customer.cart) dataToPersist.cart = customer.cart;
+		if(customer.wishlist) dataToPersist.wishlist = customer.wishlist;
+//		if(customer.ips) dataToPersist = {'$addToSet': {ips : this.req.ip}};
+
+		if(dataToPersist) {
+			this.updateCustomer(dataToPersist, function(err, result) {
+				if(err) return callback(err);
+				callback();
+			});
+		} else {
 			callback();
-		});
+		}
+
 	},
+	isLogged: function() {
+		var session = this.req.session;
+
+		if(    !(session)
+			|| !('customer' in session)
+			|| !('isLogged' in session.customer)
+			|| !(session.customer.isLogged)) {
+
+			return false;
+		}
+
+		if(session.customer.isLogged) {
+			return true;
+		}
+
+		return false;
+	}
 };
 
 

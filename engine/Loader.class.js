@@ -13,10 +13,13 @@ function Loader(req, res, next) {
 
 Loader.prototype.model = function(modelName, parent) {
 
-	console.log(this.name);
-
 	var model = this.normalize('model', modelName, 'class');
 
+	// Inside this class, call this.next(err) doesn't work
+	// But throw a new Error('message') works just fine
+	//
+	// This won't work:
+	// return this.next({status: 404, message: 'error'});
 	try {
 		var Model = require(model.path);
 	} catch(err) {
@@ -39,8 +42,6 @@ Loader.prototype.model = function(modelName, parent) {
 
 Loader.prototype.controller = function(controllerName, parent) {
 
-	console.log(this.name);
-
 	var controller = this.normalize('controller', controllerName, 'class');
 
 	try {
@@ -52,12 +53,35 @@ Loader.prototype.controller = function(controllerName, parent) {
 
 	if(!!parent) {
 
-		parent[controller.objectName] = new Controller(this.req, this.res);
+		parent[controller.objectName] = new Controller(this.req, this.res, this.next);
 		return parent[controller.objectName];
 
 	} else {
 
-		return new Controller(this.req, this.res);
+		return new Controller(this.req, this.res, this.next);
+
+	}
+
+}
+
+Loader.prototype.engine = function(className, parent) {
+
+	var classToLoad = this.normalize('engine', className, 'class');
+
+	try {
+		var EngineClass = require(classToLoad.path);
+	} catch(err) {
+		throw new Error('Error loading engine: ' + className);
+	}
+
+	if(!!parent) {
+
+		parent[classToLoad.objectName] = new EngineClass(this.req, this.res, this.next);
+		return parent[classToLoad.objectName];
+
+	} else {
+
+		return new EngineClass(this.req, this.res, this.next);
 
 	}
 
@@ -67,7 +91,7 @@ Loader.prototype.normalize = function(type, name, camelize) {
 
 	var route = name.split('/');
 	var group = route.shift().toLowerCase();
-	var component = route.shift();
+	var component = route.shift() || group;
 	var realName = '';
 	
 	if(camelize === 'class') {
@@ -104,7 +128,7 @@ Loader.prototype.normalize = function(type, name, camelize) {
 
 	switch (type) {
 		case 'model':
-			path = config.modelPath;
+			path = config.modelPath + '/' + group;
 			complement = 'Model.class.js';
 			objectName = type
 					   + group.charAt(0).toUpperCase()
@@ -112,7 +136,7 @@ Loader.prototype.normalize = function(type, name, camelize) {
 					   + realName;
 			break;
 		case 'controller':
-			path = config.controllerPath;
+			path = config.controllerPath + '/' + group;
 			complement = 'Controller.class.js';
 			objectName = type
 					   + group.charAt(0).toUpperCase()
@@ -120,8 +144,13 @@ Loader.prototype.normalize = function(type, name, camelize) {
 					   + realName;
 			break;
 		case 'template':
-			path = config.templatePath;
+			path = config.templatePath + '/' + group;
 			complement = '';
+			break;
+		case 'engine':
+			path = config.enginePath;
+			complement = '.class.js';
+			objectName = realName.charAt(0).toLowerCase() + realName.substr(1);
 			break;
 		default:
 			path = '.';
@@ -129,16 +158,20 @@ Loader.prototype.normalize = function(type, name, camelize) {
 			break;
 	}
 
-	path += '/' + group
-		 +  '/' + realName + complement;
+	// TODO check the security problems to other paths
+	path += '/' + realName + complement;
+
+	console.log(path);
+	console.log(objectName);
 
 	return {path: path, objectName: objectName};
 
-} 
+}
+
 
 
 module.exports = function(req, res, next) {
-	req.loader = new Loader(req, res, next);
+	req.load = new Loader(req, res, next);
 	console.log('Loader object created in req.loader');
 	next();
 }

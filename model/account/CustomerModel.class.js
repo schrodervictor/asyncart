@@ -45,10 +45,6 @@ var CustomerModel = model.extend({
 					customer.approved = true;
 					customer.dateAdded = new Date();
 
-		        callback(null, customer);
-		    },
-		    function(customer, callback) {
-
 		    	self.collection.insert(customer, {w:1}, function(err, result){
 		    		if(err) return callback(err);
 		    		callback(null, result);

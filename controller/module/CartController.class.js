@@ -14,7 +14,27 @@ var CartController = (new Controller()).extend({
 		this.route = 'module/cart';
 		this.template = 'module/cart';
 		this.data = {};
+	},
+	renderAsPartial: function(origCallback) {
+		var self = this;
+		var session = self.req.session;
+
+		var productId = '20';
+		var options = {color: 'blue', size: 's'};
+		var quantity = 5;
+
+		self.req.cart.add(productId, options, quantity, function(){
+			self.data = {
+				cartObject: JSON.stringify(session.cart),
+				cart: session.cart,
+			}
+
+			self.render(origCallback);
+		});
+	
 	}
+
+
 });
 
 module.exports = CartController;

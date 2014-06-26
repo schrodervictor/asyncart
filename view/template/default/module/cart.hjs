@@ -1,1 +1,13 @@
-<div class="cart">Shopping Cart</div>
+<div class="cart">
+	<p>Shopping Cart</p>
+	<pre>{{cartObject}}</pre>
+	{{#cart}}
+		{{#products}}
+			<p>Id: {{id}}</p>
+			<p>Name: {{info.name}}</p>
+			<p>Quantity: {{quantity}}</p>
+			<p>Price: R$ {{price}}</p>
+		{{/products}}
+		<p>Total: R$ {{total}}</p>
+	{{/cart}}
+</div>

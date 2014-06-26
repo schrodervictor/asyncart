@@ -10,6 +10,7 @@ var bodyParser = require('body-parser');
 var database = require('./engine/Database');
 var sessionStore = require('./engine/sessionStore.obj');
 var loader = require('./engine/Loader.class');
+var cart = require('./engine/Cart.class');
 
 var app = express();
 
@@ -54,6 +55,7 @@ for (var i = 0, j = groups.length; i < j; i++) {
     }
 };*/
 app.use(loader);
+app.use(cart);
 app.use(database());
 app.use('/admin', require('./routes/admin'));
 app.use('/', require('./routes/index'));

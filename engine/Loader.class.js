@@ -23,7 +23,8 @@ Loader.prototype.model = function(modelName, parent) {
 	try {
 		var Model = require(model.path);
 	} catch(err) {
-		throw new Error('Error loading model: ' + modelName);
+		throw new Error(err);
+//		throw new Error('Error loading model: ' + modelName);
 	}
 
 
@@ -172,6 +173,6 @@ Loader.prototype.normalize = function(type, name, camelize) {
 
 module.exports = function(req, res, next) {
 	req.load = new Loader(req, res, next);
-	console.log('Loader object created in req.loader');
+	console.log('Loader object created in req.load');
 	next();
 }

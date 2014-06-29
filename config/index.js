@@ -19,10 +19,6 @@ var environment = {
 	local: {
 		mode: 'local',
 		port: 3000,
-		controllerPath: path.resolve('controller'),
-		modelPath: path.resolve('model'),
-		viewPath: path.resolve('view'),
-		templatePath: path.resolve('view/template'),
 		enginePath: path.resolve('engine'),
 	},
 	staging: {
@@ -36,6 +32,7 @@ var environment = {
 }
 module.exports = function(mode) {
 	config = merge(config, environment[mode || process.argv[2] || 'local']);
+	//console.log('Config:')
 	//console.dir(config);
 	return config;
 }

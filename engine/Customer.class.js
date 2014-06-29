@@ -3,7 +3,7 @@ var crypto = require('crypto');
 
 function Customer(req) {
 	this.req = req;
-	this.customerModel = new (require('../model/account/CustomerModel.class'))(req, {});
+	this.customerModel = new (require(req.loadPoint + '/model/account/CustomerModel.class'))(req, {});
 };
 
 Customer.prototype = {

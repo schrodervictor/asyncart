@@ -68,7 +68,7 @@ var Controller = (new Extendable()).extend({
 						var controller = route.shift();
 						controller = controller.charAt(0).toUpperCase() + controller.substr(1);
 						var action = route.shift() || 'renderAsPartial';
-						var PartialController = require('../controller/' + group + '/' + controller + 'Controller.class');
+						var PartialController = require(self.req.loadPoint + '/controller/' + group + '/' + controller + 'Controller.class');
 						var partialController = new PartialController(self.req, self.res, self.next);
 						partialController[action](function(err, html) {
 							if(err) {
@@ -118,7 +118,7 @@ var Controller = (new Extendable()).extend({
 		var controller = route.shift();
 		controller = controller.charAt(0).toUpperCase() + controller.substr(1).toLowerCase();
 		var action = route.shift() || 'index';
-		var Page = require('../controller/' + group + '/' + controller + 'Controller.class');
+		var Page = require(this.req.loadPoint + '/controller/' + group + '/' + controller + 'Controller.class');
 		var page = new Page(this.req, this.res, this.next);
 		if(page.isExposedAction(action)) {
 			page[action]();

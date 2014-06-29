@@ -6,8 +6,8 @@
 			{{separator}}<a href="{{href}}">{{text}}</a>
 			{{/breadcrumbs}}
 			<h1>{{ title }}</h1>
-			<p>{{ product.name }}</p>
-			<p>{{ product.price }}</p>
+			<p>{{ product.base.name }}</p>
+			<p>{{ product.base.price }}</p>
 		</div>
 		{{{ contentBottom }}}
 		{{{ columnRight }}}

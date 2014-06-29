@@ -31,7 +31,7 @@ var ProductController = (new Controller()).extend({
 		        	if(err) return callback(err);
 		        	if(!productData) return callback('Product not found');
 
-		        	self.data.title = 'Product: ' + productData.name;
+		        	self.data.title = 'Product: ' + productData.base.name;
 		        	self.data.product = productData;
 		        	callback();
 		        });

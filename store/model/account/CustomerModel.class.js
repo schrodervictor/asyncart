@@ -1,4 +1,5 @@
-var Model = require('../../engine/Model.class');
+var config = require(__config)();
+var Model = require(config.enginePath + '/Model.class');
 var model = new Model();
 var crypto = require('crypto');
 var async = require('async');

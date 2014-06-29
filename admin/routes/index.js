@@ -1,4 +1,4 @@
-var config = require('../config')();
+var config = require(__config)();
 var express = require('express');
 var router = express.Router();
 var Admin = require('../controller/admin/AdminController.class');

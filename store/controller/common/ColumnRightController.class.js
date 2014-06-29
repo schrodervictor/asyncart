@@ -1,4 +1,5 @@
-var Controller = require('../../engine/Controller.class');
+var config = require(__config)();
+var Controller = require(config.enginePath + '/Controller.class');
 
 var ColumnRightController = (new Controller()).extend({
 	exposedActions: {

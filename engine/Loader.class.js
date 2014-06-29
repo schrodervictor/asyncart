@@ -1,14 +1,11 @@
 var fs = require('fs');
-var config = require('../config')();
+var path = require('path');
+var config = require(__config)();
 
 function Loader(req, res, next) {
 	this.req = req;
 	this.res = res;
 	this.next = next;
-
-	this.controllerPath = config.controllerPath;
-	this.modelPath = config.modelPath;
-	this.viewPath = config.viewPath;
 }
 
 Loader.prototype.model = function(modelName, parent) {
@@ -123,13 +120,13 @@ Loader.prototype.normalize = function(type, name, camelize) {
 	
 	}
 
-	var path;
+	var _path;
 	var complement;
 	var objectName;
 
 	switch (type) {
 		case 'model':
-			path = config.modelPath + '/' + group;
+			_path = this.req.loadPoint + '/model/' + group;
 			complement = 'Model.class.js';
 			objectName = type
 					   + group.charAt(0).toUpperCase()
@@ -137,7 +134,7 @@ Loader.prototype.normalize = function(type, name, camelize) {
 					   + realName;
 			break;
 		case 'controller':
-			path = config.controllerPath + '/' + group;
+			_path = this.req.loadPoint + '/controller/' + group;
 			complement = 'Controller.class.js';
 			objectName = type
 					   + group.charAt(0).toUpperCase()
@@ -145,27 +142,29 @@ Loader.prototype.normalize = function(type, name, camelize) {
 					   + realName;
 			break;
 		case 'template':
-			path = config.templatePath + '/' + group;
+			// TODO make this more intelligent to check if file exists
+			// and fallback to default, if not
+			_path = this.req.loadPoint + '/view/template/default' + group;
 			complement = '';
 			break;
 		case 'engine':
-			path = config.enginePath;
+			_path = config.enginePath;
 			complement = '.class.js';
 			objectName = realName.charAt(0).toLowerCase() + realName.substr(1);
 			break;
 		default:
-			path = '.';
+			_path = '.';
 			complement = '.js'
 			break;
 	}
 
 	// TODO check the security problems to other paths
-	path += '/' + realName + complement;
+	_path += '/' + realName + complement;
 
-	console.log(path);
+	console.log(_path);
 	console.log(objectName);
 
-	return {path: path, objectName: objectName};
+	return {path: _path, objectName: objectName};
 
 }
 

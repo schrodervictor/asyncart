@@ -1,0 +1,27 @@
+<html><body>
+Options:
+{{#options}}
+	{{id}}<br />
+	{{#lang}}
+		{{#active}}
+			{{code}}: {{value}}<br />
+		{{/active}}
+		{{^active}}
+			Inactive: {{code}}/{{value}}<br />
+		{{/active}}
+	{{/lang}}
+	{{#values}}
+		{{id}}<br />
+		{{#lang}}
+			{{#active}}
+				{{code}}: {{value}}<br />
+			{{/active}}
+			{{^active}}
+				Inactive: {{code}}/{{value}}<br />
+			{{/active}}
+		{{/lang}}
+	{{/values}}
+{{/options}}
+<br /><br />
+{{languages}}
+</body></html>

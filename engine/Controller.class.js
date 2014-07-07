@@ -7,9 +7,6 @@ var Controller = (new Extendable()).extend({
 		this.res = res || arguments[1];
 		this.next = next || arguments[2];
 	},
-	exposedActions: {
-		index: true
-	},
 	index: function() {
 
 	},
@@ -117,13 +114,13 @@ var Controller = (new Extendable()).extend({
 		var group = route.shift();
 		var controller = route.shift();
 		controller = controller.charAt(0).toUpperCase() + controller.substr(1).toLowerCase();
-		var action = route.shift() || 'index';
+		var action = (route.shift() || 'index') + 'Action';
 		var Page = require(this.req.loadPoint + '/controller/' + group + '/' + controller + 'Controller.class');
 		var page = new Page(this.req, this.res, this.next);
-		if(page.isExposedAction(action)) {
+		if('function' === typeof(page[action])) {
 			page[action]();
 		} else {
-			next();
+			this.next();
 		}
 	},
 	render: function(origCallback) {

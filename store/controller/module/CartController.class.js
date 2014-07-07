@@ -2,9 +2,6 @@ var config = require(__config)();
 var Controller = require(config.enginePath + '/Controller.class');
 
 var CartController = (new Controller()).extend({
-	exposedActions: {
-		init: false
-	},
 	init: function() {
 		this.req = arguments[0];
 		this.res = arguments[1];

@@ -16,7 +16,7 @@ var ProductController = (new Controller()).extend({
 		this.data = {};
 	},
 	
-	index: function() {
+	indexAction: function() {
 		var self = this;
 
 		async.series([

@@ -3,9 +3,6 @@ var Controller = require(config.enginePath + '/Controller.class');
 var async = require('async');
 
 var HeaderController = (new Controller()).extend({
-    exposedActions: {
-        init: false,
-    },
     init: function() {
         this.req = arguments[0];
         this.res = arguments[1];

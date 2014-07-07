@@ -2,9 +2,6 @@ var config = require(__config)();
 var Controller = require(config.enginePath + '/Controller.class');
 
 var ColumnLeftController = (new Controller()).extend({
-	exposedActions: {
-
-	},
 	init: function() {
 		this.req = arguments[0];
 		this.res = arguments[1];

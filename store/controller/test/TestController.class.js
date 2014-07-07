@@ -3,13 +3,6 @@ var Controller = require(config.enginePath + '/Controller.class');
 var async = require('async');
 
 var TestController = (new Controller()).extend({
-    exposedActions: {
-        init: false,
-        customer: true,
-        logout: true,
-        login: true,
-        create: true
-    },
     init: function() {
         this.req = arguments[0];
         this.res = arguments[1];
@@ -21,7 +14,7 @@ var TestController = (new Controller()).extend({
         this.template = 'test/test';
         this.data = {};
     },
-    login: function() {
+    loginAction: function() {
         console.log('Inside method login in TestController');
         var self = this;
         var session = this.req.session;
@@ -48,7 +41,7 @@ var TestController = (new Controller()).extend({
         });
 
     },
-    logout: function() {
+    logoutAction: function() {
 
         var self = this;
         var session = this.req.session;
@@ -70,7 +63,7 @@ var TestController = (new Controller()).extend({
 
 
     },
-    create: function() {
+    createAction: function() {
         var self = this;
 
         self.template = 'test/customer-test';

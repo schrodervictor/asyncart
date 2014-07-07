@@ -2,6 +2,7 @@ var config = require(__config)();
 var express = require('express');
 var router = express.Router();
 
+
 router.param('group', function(req, res, next, group) {
 	// TODO implement validation of this entry (for safety)
     req.group = group.toLowerCase();
@@ -20,10 +21,12 @@ router.param('controller', function(req, res, next, controller) {
     next();
 });
 
+var defaultAction = 'indexAction';
+
 router.param('action', function(req, res, next, action) {
 	// TODO implement validation of this entry (for safety)
 	// TODO Add suport for multiple word methods
-   	req.action = action.toLowerCase();
+   	req.action = action.toLowerCase() + 'Action';
     console.log('Action: ' + req.action);
     next();
 });
@@ -45,8 +48,11 @@ router.all('/', function(req, res, next) {
 router.get('/category/:category/product/:product', function(req, res, next) {
 
 	var page = req.load.controller('catalog/product');
-	if(page.isExposedAction(req.action || 'index')) {
-		page[req.action || 'index']();
+
+	if('function' === typeof(page[req.action])) {
+		page[req.action]();
+	} else if('function' === typeof(page[defaultAction])) {
+		page[defaultAction]();
 	} else {
 		next();
 	}
@@ -56,8 +62,11 @@ router.get('/category/:category/product/:product', function(req, res, next) {
 router.get('/category/:category', function(req, res, next) {
 
 	var page = req.load.controller('catalog/category');
-	if(page.isExposedAction(req.action || 'index')) {
-		page[req.action || 'index']();
+
+	if('function' === typeof(page[req.action])) {
+		page[req.action]();
+	} else if('function' === typeof(page[defaultAction])) {
+		page[defaultAction]();
 	} else {
 		next();
 	}
@@ -65,9 +74,13 @@ router.get('/category/:category', function(req, res, next) {
 
 /* GET home page. */
 router.get('/:group/:controller/:action?', function(req, res, next) {
+	
 	var page = req.load.controller(req.controllerPath);
-	if(page.isExposedAction(req.action || 'index')) {
-		page[req.action || 'index']();
+	
+	if('function' === typeof(page[req.action])) {
+		page[req.action]();
+	} else if('function' === typeof(page[defaultAction])) {
+		page[defaultAction]();
 	} else {
 		next();
 	}

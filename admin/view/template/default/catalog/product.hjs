@@ -1,0 +1,55 @@
+{{{ header }}}
+		{{{ columnLeft }}}
+		{{{ contentTop }}}
+		<div class="container">
+			{{#form}}
+				<form method="{{method}}" action="{{action}}">
+					{{#fields}}
+						{{#isHidden}}
+							<input type="hidden" name="{{name}}" value="{{value}}" />
+						{{/isHidden}}
+						{{#isText}}
+							{{label}}: <input type="text" name="{{name}}" value="{{value}}" /><br />
+						{{/isText}}
+						{{#isTextarea}}
+							{{label}}:<br />
+							<textarea name="{{name}}">{{value}}</textarea><br />
+						{{/isTextarea}}
+						{{#isSelect}}
+							{{label}}: <select name="{{name}}">
+								{{#options}}
+									<option value="{{value}}"{{#selected}} select="select"{{/selected}}>{{label}}</option>
+								{{/options}}
+							</select><br />
+						{{/isSelect}}
+					{{/fields}}
+				Options:<br />
+				{{#options}}
+					<input type="hidden" name="option[0][id]" value="10-color:blue-size:s" />
+					<select name="option[0][color]">
+						<option value="blue">blue</option>
+						<option value="red">red</option>
+					</select>
+					<select name="option[0][size]">
+						<option value="s">small</option>
+						<option value="m">medium</option>
+						<option value="l">large</option>
+					</select>
+					<input type="hidden" name="option[1][id]" value="10-color:blue-size:m" />
+					<select name="option[1][color]">
+						<option value="blue">blue</option>
+						<option value="red">red</option>
+					</select>
+					<select name="option[1][size]">
+						<option value="s">small</option>
+						<option value="m">medium</option>
+						<option value="l">large</option>
+					</select>
+				{{/options}}
+				<input type="submit" value="Submit" />
+				</form>
+			{{/form}}
+		</div>
+		{{{ contentBottom }}}
+		{{{ columnRight }}}
+{{{ footer }}}

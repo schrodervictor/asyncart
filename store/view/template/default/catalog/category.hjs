@@ -9,8 +9,8 @@
 			<div>
 				{{#products}}
 					<p>See the products in this Category:</p>
-					<p>{{ name }}</p>
-					<p>{{ price }}</p>
+					<p>{{ base.name }}</p>
+					<p>{{ base.price }}</p>
 				{{/products}}
 				{{^products}}
 					<p>No products found in this category!</p>

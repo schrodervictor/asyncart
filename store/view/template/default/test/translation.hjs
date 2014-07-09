@@ -1,0 +1,16 @@
+{{#translate}}
+<html>
+<head>
+	<title><t>Translation Test</t></title>
+</head>
+	<body>
+		<h1><t>This is a test for the {{testVar}} translator engine</t></h1>
+		<p><t>This string will {{testVar}} not be found</t></p>
+		<p>Options:</p>
+		<p>{{options}}</p>
+		<br><br>
+		<p>Translated Options:</p>
+		<p>{{tOptions}}</p>
+	</body>
+</html>
+{{/translate}}

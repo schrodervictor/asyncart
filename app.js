@@ -11,6 +11,7 @@ var bodyParser = require('body-parser');
 var database = require('./engine/Database');
 var sessionStore = require('./engine/sessionStore.obj');
 var loader = require('./engine/Loader.class');
+var translator = require('./engine/Translator.class');
 
 var app = express();
 
@@ -42,6 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.disable('etag');
 
 app.use(loader);
+app.use(translator);
 app.use(database());
 app.use('/admin', require('./admin'));
 app.use('/', require('./store'));

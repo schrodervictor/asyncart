@@ -23,7 +23,7 @@ var HeaderController = (new Controller()).extend({
             title: 'Second title',
         };
 
-        var customer = self.load.engine('customer');
+        var customer = self.req.customer;
 
         if(customer.isLogged()) {
             self.data.customerName = session.customer.firstname + ' ' + session.customer.lastname;

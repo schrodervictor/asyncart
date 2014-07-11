@@ -36,7 +36,7 @@ Customer.prototype = {
 			session.save(function(err) {
 				if(err) return callback(err);
 
-				callback();
+				callback(null, customerData);
 			});
 
 		}
@@ -145,7 +145,8 @@ Customer.prototype = {
 	}
 };
 
-
-Customer.prototype.constructor = Customer;
-
-module.exports = Customer;
+module.exports = function(req, res, next) {
+	req.customer = new Customer(req);
+	console.log('Customer instance attached in req.customer');
+	next();
+}

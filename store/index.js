@@ -2,6 +2,7 @@ var config = require(__config)();
 var express = require('express');
 var path = require('path');
 var cart = require(config.enginePath + '/Cart.class');
+var customer = require(config.enginePath + '/Customer.class');
 
 var store = express();
 
@@ -18,6 +19,7 @@ store.set('view engine', 'hjs');
 //store.use(require('less-middleware')(path.join(__dirname, 'public')));
 
 store.use(cart);
+store.use(customer);
 
 store.use('/a', require('./routes/ajax'));
 store.use('/', require('./routes/index'));

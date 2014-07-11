@@ -6,17 +6,18 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "express": "~4.2.0",
-    "static-favicon": "~1.0.0",
-    "morgan": "~1.0.0",
+    "async": "*",
+    "body-parser": "~1.0.0",
     "cookie-parser": "~1.0.1",
     "cookie-session": "*",
-    "express-session": "*",
-    "body-parser": "~1.0.0",
     "debug": "~0.7.4",
+    "express": "~4.2.0",
+    "express-session": "*",
     "hjs": "~0.0.6",
     "less-middleware": "1.0.x",
     "mongodb": "*",
-    "async": "*"
+    "morgan": "~1.0.0",
+    "nodemailer": "^0.7.1",
+    "static-favicon": "~1.0.0"
   }
 }

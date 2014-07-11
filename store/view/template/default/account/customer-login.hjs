@@ -1,0 +1,40 @@
+{{{ header }}}
+		{{{ columnLeft }}}
+		{{{ contentTop }}}
+		<div class="container">
+			{{#loginForm}}
+				<form method="{{method}}" action="{{action}}">
+					<span class="error">{{error.login.message}}</span><br>
+					{{#fields}}
+						{{#isText}}
+							{{label}}: <input type="text" name="{{name}}" value="{{value}}">
+							<span class="error">{{error.login.username}}</span><br>
+						{{/isText}}
+						{{#isPassword}}
+							{{label}}: <input type="password" name="{{name}}" value="{{value}}">
+							<span class="error">{{error.login.password}}</span><br>
+						{{/isPassword}}
+					{{/fields}}
+				<input type="submit" value="Submit">
+				</form>
+			{{/loginForm}}
+			{{#registerForm}}
+				<form method="{{method}}" action="{{action}}">
+					<span class="error">{{error.register.message}}</span><br>
+					{{#fields}}
+						{{#isText}}
+							{{label}}: <input type="text" name="{{name}}" value="{{value}}">
+							<span class="error">{{error.register.username}}</span><br>
+						{{/isText}}
+						{{#isPassword}}
+							{{label}}: <input type="password" name="{{name}}" value="{{value}}">
+							<span class="error">{{error.register.password}}</span><br>
+						{{/isPassword}}
+					{{/fields}}
+				<input type="submit" value="Submit">
+				</form>
+			{{/registerForm}}
+		</div>
+		{{{ contentBottom }}}
+		{{{ columnRight }}}
+{{{ footer }}}

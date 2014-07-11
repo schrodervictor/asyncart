@@ -41,72 +41,28 @@ var OptionsController = (new Controller()).extend({
 
 				var options = [{
 					id: 'color',
-					lang: [
-						{code: 'en_US', value: 'color'},
-						{code: 'pt_BR', value: 'cor'},
-					],
+					idTranslations: {
+						'en_US': 'color',
+						'pt_BR': 'cor',
+					},
 					values: [
 						{
 							id: 'blue',
-							lang: [
-								{code: 'en_US', value: 'blue'},
-								{code: 'pt_BR', value: 'azul'}
-							]
+							idTranslations: {
+								'en_US': 'blue',
+								'pt_BR': 'azul',
+							}
 						},
 						{
 							id: 'red',
-							lang: [
-								{code: 'en_US', value: 'red'},
-								{code: 'pt_BR', value: 'vermelho'}
-							]
+							idTranslations: {
+								'en_US': 'red',
+								'pt_BR': 'vermelho'
+							}
 						}
 					],
 					active: true
 				}];
-
-				options.forEach(function(option) {
-
-					languages.forEach(function(language) {
-						var found = false;
-						option.lang.forEach(function(l) {
-							if(l.active) return;
-							l.active = false;
-							if(l.code == language) {
-								l.active = true;
-								found = true;
-							}
-						});
-						if(!found) {
-							option.lang.push({
-								code: language,
-								value: '',
-								active: true
-							});
-						}
-					});
-
-					option.values.forEach(function(value) {
-						languages.forEach(function(language){
-							var found = false;
-							value.lang.forEach(function(l) {
-								if(l.active) return;
-								l.active = false;
-								if(l.code == language) {
-									l.active = true;
-									found = true;
-								}
-							});
-							if(!found) {
-								value.lang.push({
-									code: language,
-									value: '',
-									active: true
-								});
-							}
-						});
-					});
-
-				});
 
 				self.data.options = options;
 				self.data.languages = languages;

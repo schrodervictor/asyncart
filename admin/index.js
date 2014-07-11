@@ -6,6 +6,8 @@ var admin = express();
 
 admin.use(function(req, res, next) {
     req.loadPoint = __dirname;
+    req.mountPoint = req.originalUrl.replace(req.url, '');
+    console.log('mountPoint: ' + req.mountPoint);
     next();
 });
 
